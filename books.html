@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books - Trost BookStore</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            background: #f8fafc;
+            padding-top: 76px;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: #0b1a33;
+            color: white;
+            padding: 40px 0 30px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+        }
+
+        .page-header p {
+            color: #cbd5e1;
+        }
+
+        /* Search and Filter */
+        .filter-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        .filter-section .form-control {
+            border-radius: 25px;
+            padding: 10px 20px;
+        }
+
+        .filter-section .btn-search {
+            background: #2563eb;
+            color: white;
+            border-radius: 25px;
+            padding: 10px 25px;
+            border: none;
+            width: 100%;
+        }
+
+        .filter-section .btn-search:hover {
+            background: #1d4ed8;
+        }
+
+        .filter-section select {
+            border-radius: 25px;
+            padding: 10px 15px;
+            border: 1px solid #e2e8f0;
+            width: 100%;
+        }
+
+        /* Book Cards */
+        .book-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: 0.3s;
+            height: 100%;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .book-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+        }
+
+        .book-card .book-info {
+            padding: 15px;
+        }
+
+        .book-card .book-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0b1a33;
+            margin-bottom: 5px;
+        }
+
+        .book-card .book-author {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .book-card .book-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2563eb;
+        }
+
+        .book-card .book-rating {
+            color: #f59e0b;
+            margin-bottom: 8px;
+        }
+
+        .book-card .book-rating span {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        .book-card .availability {
+            font-size: 0.85rem;
+            padding: 3px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .availability.in-stock {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .availability.out-of-stock {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .book-card .btn-add {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 25px;
+            width: 100%;
+            transition: 0.3s;
+        }
+
+        .book-card .btn-add:hover {
+            background: #1d4ed8;
+        }
+
+        .book-card .btn-add:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        /* Pagination */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 30px 0;
+        }
+
+        .pagination-container button {
+            padding: 8px 16px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            border-radius: 8px;
+            color: #475569;
+            transition: 0.3s;
+        }
+
+        .pagination-container button:hover {
+            background: #f1f5f9;
+        }
+
+        .pagination-container button.active {
+            background: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+
+        .pagination-container button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* No results */
+        .no-results {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .no-results i {
+            font-size: 3rem;
+            color: #94a3b8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+            .book-card img {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1><i class="fas fa-book"></i> Our Collection</h1>
+            <p>Browse through our wide selection of books</p>
+        </div>
+    </section>
+
+    <!-- Search and Filter -->
+    <div class="container">
+        <div class="filter-section">
+            <div class="row g-3">
+                <div class="col-md-5">
+                    <input type="text" class="form-control" id="searchInput" placeholder="Search by title or author...">
+                </div>
+                <div class="col-md-3">
+                    <select id="categoryFilter" class="form-select">
+                        <option value="all">All Categories</option>
+                        <option value="fiction">Fiction</option>
+                        <option value="nonfiction">Non-Fiction</option>
+                        <option value="selfhelp">Self-Help</option>
+                        <option value="business">Business</option>
+                        <option value="science">Science</option>
+                        <option value="history">History</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select id="sortFilter" class="form-select">
+                        <option value="default">Sort by</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="rating">Highest Rated</option>
+                        <option value="name">A-Z</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn-search" id="searchBtn">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Books Grid -->
+    <div class="container">
+        <div id="resultsCount" style="text-align: center; color: #64748b; margin-bottom: 15px;"></div>
+        
+        <div class="row" id="booksGrid">
+            <!-- Books will be loaded here by JavaScript -->
+        </div>
+
+        <!-- No Results -->
+        <div class="no-results" id="noResults" style="display: none;">
+            <i class="fas fa-search"></i>
+            <h4>No books found</h4>
+            <p>Try adjusting your search or filter criteria</p>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination-container" id="pagination">
+            <!-- Pagination buttons will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Trost BookStore</h5>
+                    <p>Your gateway to endless stories. All in one place 📖</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="about.html" class="text-white-50">About Us</a></li>
+                        <li><a href="contact.html" class="text-white-50">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Follow Us</h5>
+                    <a href="#" class="text-white-50 me-2"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-white-50 me-2"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-white-50"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // ========== BOOK DATA ==========
+        const books = [
+            // Fiction
+            {
+                id: 1,
+                title: "Woman Thou Art Loosed",
+                author: "T.D Jakes",
+                category: "Motivational",
+                price:  900,
+                rating: 4.5,
+                reviews: 234,
+                inStock: true,
+                image: "https://covers.openlibrary.org/b/id/7221916-L.jpg"
+            },
+            {
+                id: 2,
+                title: "How to Win Friends and Influence People ",
+                author: "Dale Carnegie",
+                category: "Motivational",
+                price: 650,
+                rating: 3.8,
+                reviews: 456,
+                inStock: true,
+                image: "https://covers.openlibrary.org/b/id/8224854-L.jpg"
+            },
+            {
+                id: 3,
+                title: "48 Laws of Power",
+                author: "Robert Greene",
+                category: "Motivational ",
+                price: 750,
+                rating: 4.7,
+                reviews: 389,
+                inStock: true,
+                image: "https://covers.openlibrary.org/b/id/7221915-L.jpg"
+            },
+            {
+                id: 4,
+                title: "Pride and Prejudice",
+                author: "Jane Austen",
+                category: "fiction",
+                price: 10.99,
+                rating: 4.6,
+                reviews: 312,
+                inStock: false,
+                image: "https://covers.openlibrary.org/b/id/8224853-L.jpg"
+            },
+            // Non-Fiction
+            {
+                id: 5,
+                title: "Sapiens",
+                author: "Yuval Noah Harari",
+                category: "nonfiction",
+                price: 18.99,
+                rating: 4.6,
+                reviews: 567,
+                inStock: true,
+                image: "https://covers.openlibrary.org/b/id/8224855-L.jpg"
+            },
+            {
+                id: 6,
+                title: "The Diary of a Young Girl",
+                author: "Anne Frank",
+                category: "nonfiction",
+                price: 9.99,
+                rating: 4.7,
+                reviews: 678,
+                inStock: true,
+                image: "https://covers.openlibrary.org/b/id/7221917-L.jpg"
+            },
+            // Self-Help
+            {
+                id: 7,
+                title: "Atomic Habits",
+                author: "James Clear",
+                category: "selfhelp",
+                price: 16.99,
+                rating: 4.8,
+                reviews: 789,
+                inStock: true,
+                image: "https://covers.openlibrary.org/b/id/8224856-L.jpg"
+            },
+            {
+                id: 8,
+                title: "The Power of Now",
+                author: "Eckhart Tolle",
+                category: "selfhelp",
+                price: 13.99,
+                rating: 4.4,
+                reviews: 456,
+                inStock: true,
+                image: "https://covers.openlibrary.org/b/id/7221918-L.jpg"
+            },
+            // Business
+            {
+                id: 9,
+                title: "The Lean Startup",
+                author: "Eric Ries",
+                category: "business",
+                price: 19.99,
+                rating: 4.5,
+                reviews: 567,
+                inStock: true,
+                image: "https://covers.openlibrary.org/b/id/8224857-L.jpg"
+            },
+            {
+                id: 10,
+                title: "Good to Great",
+                author: "Jim Collins",
+                category: "business",
+                price: 17.99,
+                rating: 4.3,
+                reviews: 345,
+                inStock: false,
+                image: "https://covers.openlibrary.org/b/id/7221919-L.jpg"
+            },
+            // Science
+            {
+                id: 11,
+                title: "A Brief History of Time",
+                author: "Stephen Hawking",
+                category: "science",
+                price: 15.99,
+                rating: 4.5,
+                reviews: 678,
+                inStock: true,
+                image: "https://covers.openlibrary.org/b/id/8224858-L.jpg"
+            },
+            {
+                id: 12,
+                title: "The Selfish Gene",
+                author: "Richard Dawkins",
+                category: "science",
+                price: 14.99,
+                rating: 4.4,
+                reviews: 456,
+                inStock: true,
+                image: "https://covers.openlibrary.org/b/id/7221920-L.jpg"
+            },
+            // History
+            {
+                id: 13,
+                title: "The Guns of August",
+                author: "Barbara W. Tuchman",
+                category: "history",
+                price: 16.99,
+                rating: 4.5,
+                reviews: 234,
+                inStock: true,
+                image: "https://covers.openlibrary.org/b/id/8224859-L.jpg"
+            },
+            {
+                id: 14,
+                title: "A People's History",
+                author: "Howard Zinn",
+                category: "history",
+                price: 18.99,
+                rating: 4.2,
+                reviews: 345,
+                inStock: true,
+                image: "https://covers.openlibrary.org/b/id/7221921-L.jpg"
+            },
+            // More Fiction
+            {
+                id: 15,
+                title: "The Catcher in the Rye",
+                author: "J.D. Salinger",
+                category: "fiction",
+                price: 10.99,
+                rating: 4.3,
+                reviews: 567,
+                inStock: true,
+                image: "https://covers.openlibrary.org/b/id/8224860-L.jpg"
+            },
+            {
+                id: 16,
+                title: "The Hobbit",
+                author: "J.R.R. Tolkien",
+                category: "fiction",
+                price: 13.99,
+                rating: 4.8,
+                reviews: 890,
+                inStock: true,
+                image: "https://covers.openlibrary.org/b/id/7221922-L.jpg"
+            },
+            {
+                id: 17,
+                title: "The Alchemist",
+                author: "Paulo Coelho",
+                category: "fiction",
+                price: 11.99,
+                rating: 4.5,
+                reviews: 678,
+                inStock: true,
+                image: "https://covers.openlibrary.org/b/id/8224861-L.jpg"
+            },
+            {
+                id: 18,
+                title: "The Da Vinci Code",
+                author: "Dan Brown",
+                category: "fiction",
+                price: 12.99,
+                rating: 4.2,
+                reviews: 456,
+                inStock: false,
+                image: "https://covers.openlibrary.org/b/id/7221923-L.jpg"
+            },
+            // More Self-Help
+            {
+                id: 19,
+                title: "How to Win Friends",
+                author: "Dale Carnegie",
+                category: "selfhelp",
+                price: 11.99,
+                rating: 4.5,
+                reviews: 789,
+                inStock: true,
+                image: "https://covers.openlibrary.org/b/id/8224862-L.jpg"
+            },
+            {
+                id: 20,
+                title: "The 7 Habits of Highly Effective People",
+                author: "Stephen R. Covey",
+                category: "selfhelp",
+                price: 17.99,
+                rating: 4.5,
+                reviews: 890,
+                inStock: true,
+                image: "https://covers.openlibrary.org/b/id/7221924-L.jpg"
+            }
+        ];
+
+        // ========== GLOBAL VARIABLES ==========
+        const booksPerPage = 8;
+        let currentPage = 1;
+        let filteredBooks = [...books];
+
+        // ========== DOM ELEMENTS ==========
+        const booksGrid = document.getElementById('booksGrid');
+        const paginationDiv = document.getElementById('pagination');
+        const resultsCount = document.getElementById('resultsCount');
+        const noResults = document.getElementById('noResults');
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const sortFilter = document.getElementById('sortFilter');
+
+        // ========== HELPER FUNCTIONS ==========
+        function getStars(rating) {
+            let stars = '';
+            const fullStars = Math.floor(rating);
+            const halfStar = rating % 1 >= 0.5;
+            
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star"></i>';
+            }
+            if (halfStar) {
+                stars += '<i class="fas fa-star-half-alt"></i>';
+            }
+            const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star"></i>';
+            }
+            return stars;
+        }
+
+        // ========== RENDER BOOKS ==========
+        function renderBooks() {
+            // Filter books
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            const category = categoryFilter.value;
+            
+            filteredBooks = books.filter(book => {
+                const matchesSearch = !searchTerm || 
+                    book.title.toLowerCase().includes(searchTerm) || 
+                    book.author.toLowerCase().includes(searchTerm);
+                const matchesCategory = category === 'all' || book.category === category;
+                return matchesSearch && matchesCategory;
+            });
+
+            // Sort books
+            const sortBy = sortFilter.value;
+            if (sortBy === 'price-low') {
+                filteredBooks.sort((a, b) => a.price - b.price);
+            } else if (sortBy === 'price-high') {
+                filteredBooks.sort((a, b) => b.price - a.price);
+            } else if (sortBy === 'rating') {
+                filteredBooks.sort((a, b) => b.rating - a.rating);
+            } else if (sortBy === 'name') {
+                filteredBooks.sort((a, b) => a.title.localeCompare(b.title));
+            }
+
+            // Update results count
+            const totalResults = filteredBooks.length;
+            resultsCount.textContent = totalResults > 0 ? `Showing ${totalResults} book${totalResults > 1 ? 's' : ''}` : '';
+
+            // Show/hide no results
+            if (totalResults === 0) {
+                noResults.style.display = 'block';
+                booksGrid.innerHTML = '';
+                paginationDiv.innerHTML = '';
+                return;
+            } else {
+                noResults.style.display = 'none';
+            }
+
+            // Pagination
+            const totalPages = Math.ceil(totalResults / booksPerPage);
+            if (currentPage > totalPages) {
+                currentPage = totalPages;
+            }
+            if (currentPage < 1) {
+                currentPage = 1;
+            }
+
+            const startIndex = (currentPage - 1) * booksPerPage;
+            const endIndex = Math.min(startIndex + booksPerPage, totalResults);
+            const pageBooks = filteredBooks.slice(startIndex, endIndex);
+
+            // Render books
+            booksGrid.innerHTML = '';
+            pageBooks.forEach(book => {
+                const col = document.createElement('div');
+                col.className = 'col-md-3 col-sm-6 mb-4';
+                
+                const stockClass = book.inStock ? 'in-stock' : 'out-of-stock';
+                const stockText = book.inStock ? 'In Stock' : 'Out of Stock';
+                
+                col.innerHTML = `
+                    <div class="book-card">
+                        <img src="${book.image}" alt="${book.title}" onerror="this.src='https://via.placeholder.com/300x280/0b1a33/ffffff?text=${book.title}'">
+                        <div class="book-info">
+                            <div class="book-title">${book.title}</div>
+                            <div class="book-author">by ${book.author}</div>
+                            <div class="book-rating">
+                                ${getStars(book.rating)}
+                                <span>(${book.reviews})</span>
+                            </div>
+                            <div class="book-price">$${book.price.toFixed(2)}</div>
+                            <div class="availability ${stockClass}">${stockText}</div>
+                            <button class="btn-add" onclick="addToCart(${book.id})" ${!book.inStock ? 'disabled' : ''}>
+                                <i class="fas fa-cart-plus"></i> Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                `;
+                booksGrid.appendChild(col);
+            });
+
+            // Render pagination
+            renderPagination(totalPages);
+        }
+
+        // ========== RENDER PAGINATION ==========
+        function renderPagination(totalPages) {
+            if (totalPages <= 1) {
+                paginationDiv.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            
+            // Previous button
+            html += `<button onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                <i class="fas fa-chevron-left"></i>
+            </button>`;
+
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === currentPage) {
+                    html += `<button class="active">${i}</button>`;
+                } else if (i === 1 || i === totalPages || Math.abs(i - currentPage) <= 2) {
+                    html += `<button onclick="goToPage(${i})">${i}</button>`;
+                } else if (i === currentPage - 3 || i === currentPage + 3) {
+                    html += `<button disabled>...</button>`;
+                }
+            }
+
+            // Next button
+            html += `<button onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                <i class="fas fa-chevron-right"></i>
+            </button>`;
+
+            paginationDiv.innerHTML = html;
+        }
+
+        // ========== PAGE NAVIGATION ==========
+        function goToPage(page) {
+            const totalPages = Math.ceil(filteredBooks.length / booksPerPage);
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            renderBooks();
+            window.scrollTo({ top: document.querySelector('.filter-section').offsetTop - 100, behavior: 'smooth' });
+        }
+
+        // ========== ADD TO CART ==========
+        function addToCart(bookId) {
+            const book = books.find(b => b.id === bookId);
+            if (!book || !book.inStock) return;
+            
+            // Get current cart from localStorage
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            // Check if book already in cart
+            const existing = cart.find(item => item.id === bookId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({
+                    id: book.id,
+                    title: book.title,
+                    price: book.price,
+                    quantity: 1,
+                    image: book.image
+                });
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`✅ "${book.title}" added to cart!`);
+        }
+
+        // ========== EVENT LISTENERS ==========
+        searchBtn.addEventListener('click', function() {
+            currentPage = 1;
+            renderBooks();
+        });
+
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                currentPage = 1;
+                renderBooks();
+            }
+        });
+
+        categoryFilter.addEventListener('change', function() {
+            currentPage = 1;
+            renderBooks();
+        });
+
+        sortFilter.addEventListener('change', function() {
+            currentPage = 1;
+            renderBooks();
+        });
+
+        // ========== INITIAL LOAD ==========
+        renderBooks();
+    </script>
+
+</body>
+</html>
