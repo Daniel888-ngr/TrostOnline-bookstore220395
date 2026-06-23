@@ -76,6 +76,8 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.06);
             transition: 0.3s;
             height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         .book-card:hover {
@@ -91,6 +93,9 @@
 
         .book-card .book-info {
             padding: 15px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .book-card .book-title {
@@ -140,6 +145,46 @@
             color: #dc2626;
         }
 
+        /* Quantity Controls on Book Card */
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 8px 0;
+        }
+
+        .quantity-controls button {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #0b1a33;
+        }
+
+        .quantity-controls button:hover {
+            background: #f1f5f9;
+            border-color: #2563eb;
+        }
+
+        .quantity-controls button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .quantity-controls .qty-display {
+            font-weight: 600;
+            min-width: 25px;
+            text-align: center;
+            font-size: 1rem;
+        }
+
         .book-card .btn-add {
             background: #2563eb;
             color: white;
@@ -148,6 +193,7 @@
             border-radius: 25px;
             width: 100%;
             transition: 0.3s;
+            margin-top: auto;
         }
 
         .book-card .btn-add:hover {
@@ -157,6 +203,10 @@
         .book-card .btn-add:disabled {
             background: #94a3b8;
             cursor: not-allowed;
+        }
+
+        .book-card .btn-add.in-cart {
+            background: #16a34a;
         }
 
         /* Pagination */
@@ -202,6 +252,232 @@
             color: #94a3b8;
         }
 
+        /* ========== CART SIDEBAR STYLES ========== */
+        .cart-toggle {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 999;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-toggle:hover {
+            transform: scale(1.1);
+            background: #1d4ed8;
+        }
+
+        .cart-toggle .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            padding: 4px 8px;
+            font-size: 0.75rem;
+            min-width: 24px;
+        }
+
+        .cart-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .cart-overlay.active {
+            display: block;
+        }
+
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -450px;
+            width: 450px;
+            height: 100%;
+            background: white;
+            z-index: 1001;
+            transition: right 0.3s ease;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 20px;
+            background: #0b1a33;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #1d4ed8;
+        }
+
+        .cart-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
+        }
+
+        .cart-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #e2e8f0;
+            align-items: center;
+        }
+
+        .cart-item img {
+            width: 60px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-details h6 {
+            margin: 0;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .cart-item-details p {
+            margin: 5px 0 0;
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cart-item-actions button {
+            width: 28px;
+            height: 28px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-item-actions button:hover {
+            background: #f1f5f9;
+        }
+
+        .cart-item-actions .quantity {
+            font-weight: 600;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .cart-footer {
+            padding: 20px;
+            border-top: 2px solid #e2e8f0;
+            background: #f8fafc;
+        }
+
+        .cart-footer .total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .cart-footer .total span:last-child {
+            color: #2563eb;
+        }
+
+        .cart-footer .btn-checkout {
+            width: 100%;
+            padding: 12px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .cart-footer .btn-checkout:hover {
+            background: #1d4ed8;
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 50px 20px;
+            color: #94a3b8;
+        }
+
+        .cart-empty i {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+
+        /* Notification Animation */
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .page-header h1 {
@@ -209,6 +485,17 @@
             }
             .book-card img {
                 height: 200px;
+            }
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+            .cart-toggle {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+                right: 10px;
+                top: 70px;
             }
         }
     </style>
@@ -234,13 +521,13 @@
                     <select id="categoryFilter" class="form-select">
                         <option value="all">All Categories</option>
                         <option value="Kenyan History">Kenyan History</option>
-                        <option value="Spiritual Books">Spirtual Books</option>
+                        <option value="Spiritual Books">Spiritual Books</option>
                         <option value="Bibles">Bibles</option>
                         <option value="Feminism and Women Affairs">Feminism and Women Affairs</option>
-                        <option value="School Books ">School Books </option>
+                        <option value="School Books">School Books</option>
                         <option value="Autobiography">Autobiography</option>
-                         <option value="Motivational">Motivational</option>
-                         <option value="Economics">Economics</option>
+                        <option value="Motivational">Motivational</option>
+                        <option value="Economics">Economics</option>
                     </select>
                 </div>
                 <div class="col-md-2">
@@ -258,6 +545,35 @@
                     </button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- ========== CART TOGGLE & SIDEBAR ========== -->
+    <button class="cart-toggle" onclick="toggleCart()">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="badge" id="cartCount">0</span>
+    </button>
+
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3><i class="fas fa-shopping-cart"></i> Your Cart</h3>
+            <button class="cart-close" onclick="closeCart()">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will be loaded here -->
+        </div>
+        <div class="cart-footer" id="cartFooter">
+            <div class="total">
+                <span>Total:</span>
+                <span id="cartTotal">KSH0.00</span>
+            </div>
+            <button class="btn-checkout" onclick="checkout()">
+                <i class="fas fa-credit-card"></i> Proceed to Checkout
+            </button>
         </div>
     </div>
 
@@ -320,15 +636,15 @@
                 title: "Woman Thou Art Loosed",
                 author: "T.D Jakes",
                 category: "Motivational",
-                price:  900,
+                price: 900,
                 rating: 4.5,
                 reviews: 234,
                 inStock: true,
-                image: "https://covers.openlibrary.org/b/id/7221916-L.jpg"
+                image: "images/wtal.jpg"
             },
             {
                 id: 2,
-                title: "How to Win Friends and Influence People ",
+                title: "How to Win Friends and Influence People",
                 author: "Dale Carnegie",
                 category: "Motivational",
                 price: 650,
@@ -341,7 +657,7 @@
                 id: 3,
                 title: "48 Laws of Power",
                 author: "Robert Greene",
-                category: "Motivational ",
+                category: "Motivational",
                 price: 750,
                 rating: 4.7,
                 reviews: 389,
@@ -359,7 +675,7 @@
                 inStock: false,
                 image: "https://covers.openlibrary.org/b/id/8224853-L.jpg"
             },
-            // Spirtual Books
+            // Spiritual Books
             {
                 id: 5,
                 title: "How to Obtain Personal Deliverance",
@@ -428,12 +744,12 @@
                 inStock: false,
                 image: "https://covers.openlibrary.org/b/id/7221919-L.jpg"
             },
-            // School Books 
+            // School Books
             {
                 id: 11,
                 title: "KCSE MIRROR ENGLISH",
                 author: "Mirror",
-                category: "School Books ",
+                category: "School Books",
                 price: 911,
                 rating: 4.5,
                 reviews: 678,
@@ -444,7 +760,7 @@
                 id: 12,
                 title: "Visionary Art and Craft G4",
                 author: "KLB",
-                category: "School Books ",
+                category: "School Books",
                 price: 1000,
                 rating: 4.4,
                 reviews: 456,
@@ -548,6 +864,7 @@
         const booksPerPage = 8;
         let currentPage = 1;
         let filteredBooks = [...books];
+        let currentQuantities = {};
 
         // ========== DOM ELEMENTS ==========
         const booksGrid = document.getElementById('booksGrid');
@@ -576,6 +893,245 @@
                 stars += '<i class="far fa-star"></i>';
             }
             return stars;
+        }
+
+        // Get quantity from cart for a specific book
+        function getCartQuantity(bookId) {
+            const cart = getCart();
+            const item = cart.find(item => item.id === bookId);
+            return item ? item.quantity : 0;
+        }
+
+        // ========== CART FUNCTIONS ==========
+        
+        // Toggle cart sidebar
+        function toggleCart() {
+            const sidebar = document.getElementById('cartSidebar');
+            const overlay = document.getElementById('cartOverlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+            renderCartItems();
+        }
+
+        // Close cart
+        function closeCart() {
+            const sidebar = document.getElementById('cartSidebar');
+            const overlay = document.getElementById('cartOverlay');
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+        }
+
+        // Get cart items
+        function getCart() {
+            return JSON.parse(localStorage.getItem('cart')) || [];
+        }
+
+        // Save cart
+        function saveCart(cart) {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        // Update cart count badge
+        function updateCartCount() {
+            const cart = getCart();
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById('cartCount');
+            if (badge) {
+                badge.textContent = totalItems;
+            }
+        }
+
+        // Render cart items
+        function renderCartItems() {
+            const cart = getCart();
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            const cartFooter = document.getElementById('cartFooter');
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="cart-empty">
+                        <i class="fas fa-shopping-bag"></i>
+                        <h5>Your cart is empty</h5>
+                        <p>Start adding some books!</p>
+                    </div>
+                `;
+                cartFooter.style.display = 'none';
+                updateCartCount();
+                return;
+            }
+
+            cartFooter.style.display = 'block';
+            
+            let html = '';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                html += `
+                    <div class="cart-item">
+                        <img src="${item.image || 'https://via.placeholder.com/60x80/0b1a33/ffffff?text=Book'}" alt="${item.title}">
+                        <div class="cart-item-details">
+                            <h6>${item.title}</h6>
+                            <p>KSH${item.price.toFixed(2)}</p>
+                        </div>
+                        <div class="cart-item-actions">
+                            <button onclick="updateQuantity(${index}, -1)">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <span class="quantity">${item.quantity}</span>
+                            <button onclick="updateQuantity(${index}, 1)">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <button onclick="removeFromCart(${index})" style="color: #ef4444; border-color: #fee2e2;">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            cartItems.innerHTML = html;
+            cartTotal.textContent = `KSH${total.toFixed(2)}`;
+            updateCartCount();
+        }
+
+        // Update quantity in cart
+        function updateQuantity(index, change) {
+            const cart = getCart();
+            if (!cart[index]) return;
+            
+            cart[index].quantity += change;
+            
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            
+            saveCart(cart);
+            renderCartItems();
+            renderBooks(); // Re-render books to update quantity displays
+        }
+
+        // Remove item from cart
+        function removeFromCart(index) {
+            const cart = getCart();
+            cart.splice(index, 1);
+            saveCart(cart);
+            renderCartItems();
+            renderBooks(); // Re-render books to update quantity displays
+        }
+
+        // Checkout
+        function checkout() {
+            const cart = getCart();
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            if (confirm(`📚 Order Summary:\n\nBooks: ${itemCount}\nTotal: KSH${total.toFixed(2)}\n\nProceed to checkout?`)) {
+                alert('✅ Thank you for your order!\nYour books will be delivered soon.');
+                localStorage.removeItem('cart');
+                renderCartItems();
+                updateCartCount();
+                closeCart();
+                renderBooks(); // Re-render books to reset quantity displays
+            }
+        }
+
+        // ========== BOOK QUANTITY CONTROLS ==========
+        function changeBookQuantity(bookId, change) {
+            const book = books.find(b => b.id === bookId);
+            if (!book || !book.inStock) return;
+
+            let cart = getCart();
+            const existing = cart.find(item => item.id === bookId);
+            
+            if (existing) {
+                const newQty = existing.quantity + change;
+                if (newQty <= 0) {
+                    // Remove from cart
+                    cart = cart.filter(item => item.id !== bookId);
+                } else {
+                    existing.quantity = newQty;
+                }
+            } else if (change > 0) {
+                // Add new item
+                cart.push({
+                    id: book.id,
+                    title: book.title,
+                    price: book.price,
+                    quantity: 1,
+                    image: book.image
+                });
+            }
+            
+            saveCart(cart);
+            updateCartCount();
+            renderBooks(); // Re-render to update quantity displays
+        }
+
+        // ========== ADD TO CART ==========
+        function addToCart(bookId) {
+            const book = books.find(b => b.id === bookId);
+            if (!book || !book.inStock) {
+                alert('Sorry, this book is out of stock!');
+                return;
+            }
+            
+            let cart = getCart();
+            const existing = cart.find(item => item.id === bookId);
+            
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({
+                    id: book.id,
+                    title: book.title,
+                    price: book.price,
+                    quantity: 1,
+                    image: book.image
+                });
+            }
+            
+            saveCart(cart);
+            updateCartCount();
+            renderBooks();
+            
+            // Show notification
+            showNotification(`✅ "${book.title}" added to cart!`);
+        }
+
+        // ========== NOTIFICATION ==========
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed; 
+                bottom: 20px; 
+                right: 20px; 
+                background: #16a34a; 
+                color: white; 
+                padding: 15px 25px; 
+                border-radius: 10px; 
+                z-index: 9999; 
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                animation: slideIn 0.3s ease;
+                max-width: 350px;
+            `;
+            notification.innerHTML = `${message} <span style="cursor:pointer;margin-left:15px;font-weight:bold;" onclick="this.parentElement.remove()">&times;</span>`;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => notification.remove(), 300);
+                }
+            }, 3000);
         }
 
         // ========== RENDER BOOKS ==========
@@ -631,6 +1187,9 @@
             const endIndex = Math.min(startIndex + booksPerPage, totalResults);
             const pageBooks = filteredBooks.slice(startIndex, endIndex);
 
+            // Get cart for quantity display
+            const cart = getCart();
+
             // Render books
             booksGrid.innerHTML = '';
             pageBooks.forEach(book => {
@@ -639,6 +1198,8 @@
                 
                 const stockClass = book.inStock ? 'in-stock' : 'out-of-stock';
                 const stockText = book.inStock ? 'In Stock' : 'Out of Stock';
+                const cartQty = getCartQuantity(book.id);
+                const inCart = cartQty > 0;
                 
                 col.innerHTML = `
                     <div class="book-card">
@@ -652,9 +1213,27 @@
                             </div>
                             <div class="book-price">KSH${book.price.toFixed(2)}</div>
                             <div class="availability ${stockClass}">${stockText}</div>
-                            <button class="btn-add" onclick="addToCart(${book.id})" ${!book.inStock ? 'disabled' : ''}>
-                                <i class="fas fa-cart-plus"></i> Add to Cart
-                            </button>
+                            
+                            ${book.inStock ? `
+                                <div class="quantity-controls">
+                                    <button onclick="changeBookQuantity(${book.id}, -1)" ${!inCart ? 'disabled' : ''}>
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <span class="qty-display" id="qty-${book.id}">${cartQty}</span>
+                                    <button onclick="changeBookQuantity(${book.id}, 1)">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    <span style="font-size:0.8rem;color:#64748b;margin-left:5px;">in cart</span>
+                                </div>
+                                <button class="btn-add ${inCart ? 'in-cart' : ''}" onclick="addToCart(${book.id})">
+                                    <i class="fas ${inCart ? 'fa-check' : 'fa-cart-plus'}"></i> 
+                                    ${inCart ? 'Added' : 'Add to Cart'}
+                                </button>
+                            ` : `
+                                <button class="btn-add" disabled>
+                                    <i class="fas fa-times"></i> Unavailable
+                                </button>
+                            `}
                         </div>
                     </div>
                 `;
@@ -707,32 +1286,6 @@
             window.scrollTo({ top: document.querySelector('.filter-section').offsetTop - 100, behavior: 'smooth' });
         }
 
-        // ========== ADD TO CART ==========
-        function addToCart(bookId) {
-            const book = books.find(b => b.id === bookId);
-            if (!book || !book.inStock) return;
-            
-            // Get current cart from localStorage
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            
-            // Check if book already in cart
-            const existing = cart.find(item => item.id === bookId);
-            if (existing) {
-                existing.quantity += 1;
-            } else {
-                cart.push({
-                    id: book.id,
-                    title: book.title,
-                    price: book.price,
-                    quantity: 1,
-                    image: book.image
-                });
-            }
-            
-            localStorage.setItem('cart', JSON.stringify(cart));
-            alert(`✅ "${book.title}" added to cart!`);
-        }
-
         // ========== EVENT LISTENERS ==========
         searchBtn.addEventListener('click', function() {
             currentPage = 1;
@@ -758,6 +1311,7 @@
 
         // ========== INITIAL LOAD ==========
         renderBooks();
+        updateCartCount();
     </script>
 
 </body>
