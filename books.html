@@ -234,11 +234,12 @@
                     <select id="categoryFilter" class="form-select">
                         <option value="all">All Categories</option>
                         <option value="fiction">Fiction</option>
-                        <option value="nonfiction">Non-Fiction</option>
-                        <option value="selfhelp">Self-Help</option>
-                        <option value="business">Business</option>
+                        <option value="Spiritual Books">Spirtual Books</option>
+                        <option value="Bibles">Bibles</option>
+                        <option value="Feminism and Women Affairs">Feminism and Women Affairs</option>
                         <option value="science">Science</option>
                         <option value="history">History</option>
+                         <option value="Motivational">Motivational</option>
                     </select>
                 </div>
                 <div class="col-md-2">
@@ -291,6 +292,7 @@
                 <div class="col-md-4">
                     <h5>Quick Links</h5>
                     <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-white-50">Home</a></li>
                         <li><a href="about.html" class="text-white-50">About Us</a></li>
                         <li><a href="contact.html" class="text-white-50">Contact</a></li>
                     </ul>
@@ -311,7 +313,7 @@
     <script>
         // ========== BOOK DATA ==========
         const books = [
-            // Fiction
+            // Motivational
             {
                 id: 1,
                 title: "Woman Thou Art Loosed",
@@ -347,22 +349,22 @@
             },
             {
                 id: 4,
-                title: "Pride and Prejudice",
-                author: "Jane Austen",
-                category: "fiction",
-                price: 10.99,
+                title: "Rich Dad Poor Dad",
+                author: "Robert T. Kiyosaki",
+                category: "Motivational",
+                price: 690,
                 rating: 4.6,
                 reviews: 312,
                 inStock: false,
                 image: "https://covers.openlibrary.org/b/id/8224853-L.jpg"
             },
-            // Non-Fiction
+            // Spirtual Books
             {
                 id: 5,
-                title: "Sapiens",
-                author: "Yuval Noah Harari",
-                category: "nonfiction",
-                price: 18.99,
+                title: "How to Obtain Personal Deliverance",
+                author: "Dr D.K. Olukoya",
+                category: "Spiritual Books",
+                price: 550,
                 rating: 4.6,
                 reviews: 567,
                 inStock: true,
@@ -370,22 +372,22 @@
             },
             {
                 id: 6,
-                title: "The Diary of a Young Girl",
-                author: "Anne Frank",
-                category: "nonfiction",
-                price: 9.99,
-                rating: 4.7,
+                title: "Prayer Warfare",
+                author: "Dr D.K. Olukoya",
+                category: "Spiritual Books",
+                price: 2500,
+                rating: 4.9,
                 reviews: 678,
                 inStock: true,
                 image: "https://covers.openlibrary.org/b/id/7221917-L.jpg"
             },
-            // Self-Help
+            // Bibles
             {
                 id: 7,
-                title: "Atomic Habits",
-                author: "James Clear",
-                category: "selfhelp",
-                price: 16.99,
+                title: "Children's King James Bible",
+                author: "BSK",
+                category: "Bibles",
+                price: 990,
                 rating: 4.8,
                 reviews: 789,
                 inStock: true,
@@ -393,22 +395,22 @@
             },
             {
                 id: 8,
-                title: "The Power of Now",
-                author: "Eckhart Tolle",
-                category: "selfhelp",
-                price: 13.99,
+                title: "New International Version",
+                author: "BSK",
+                category: "Bibles",
+                price: 870,
                 rating: 4.4,
                 reviews: 456,
                 inStock: true,
                 image: "https://covers.openlibrary.org/b/id/7221918-L.jpg"
             },
-            // Business
+            // Feminism and Women Affairs
             {
                 id: 9,
-                title: "The Lean Startup",
-                author: "Eric Ries",
-                category: "business",
-                price: 19.99,
+                title: "Woman's High Calling",
+                author: "Elizabeth George",
+                category: "Feminism and Women Affairs",
+                price: 1290,
                 rating: 4.5,
                 reviews: 567,
                 inStock: true,
@@ -416,10 +418,10 @@
             },
             {
                 id: 10,
-                title: "Good to Great",
-                author: "Jim Collins",
-                category: "business",
-                price: 17.99,
+                title: "The Power of a Praying Wife",
+                author: "Stormie Omartian",
+                category: "Feminism and Women Affairs",
+                price: 1100,
                 rating: 4.3,
                 reviews: 345,
                 inStock: false,
@@ -647,7 +649,7 @@
                                 ${getStars(book.rating)}
                                 <span>(${book.reviews})</span>
                             </div>
-                            <div class="book-price">$${book.price.toFixed(2)}</div>
+                            <div class="book-price">KSH${book.price.toFixed(2)}</div>
                             <div class="availability ${stockClass}">${stockText}</div>
                             <button class="btn-add" onclick="addToCart(${book.id})" ${!book.inStock ? 'disabled' : ''}>
                                 <i class="fas fa-cart-plus"></i> Add to Cart
