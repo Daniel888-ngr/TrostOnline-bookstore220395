@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Clubs - Trost BookStore</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            background: #f8fafc;
+            padding-top: 76px;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: #0b1a33;
+            color: white;
+            padding: 40px 0 30px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+        }
+
+        .page-header p {
+            color: #cbd5e1;
+        }
+
+        /* Club Cards */
+        .club-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: 0.3s;
+            height: 100%;
+            border: 1px solid #e2e8f0;
+        }
+
+        .club-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .club-card .club-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #f1f5f9;
+        }
+
+        .club-card .club-body {
+            padding: 20px;
+        }
+
+        .club-card .club-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0b1a33;
+            margin-bottom: 5px;
+        }
+
+        .club-card .club-meta {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .club-card .club-meta i {
+            color: #2563eb;
+            width: 18px;
+        }
+
+        .club-card .club-description {
+            color: #475569;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .club-card .club-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 15px;
+        }
+
+        .club-card .club-tags span {
+            background: #f1f5f9;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: #475569;
+        }
+
+        .club-card .btn-join {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 8px 25px;
+            border-radius: 25px;
+            transition: 0.3s;
+            width: 100%;
+        }
+
+        .club-card .btn-join:hover {
+            background: #1d4ed8;
+        }
+
+        .club-card .btn-join.joined {
+            background: #16a34a;
+        }
+
+        /* Current Picks Section */
+        .pick-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: 0.3s;
+            height: 100%;
+            border-left: 4px solid #2563eb;
+        }
+
+        .pick-card:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .pick-card .pick-rank {
+            font-size: 0.8rem;
+            color: #2563eb;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .pick-card .pick-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0b1a33;
+            margin: 5px 0;
+        }
+
+        .pick-card .pick-author {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .pick-card .pick-rating {
+            color: #f59e0b;
+            margin: 8px 0;
+        }
+
+        .pick-card .btn-pick {
+            background: #0b1a33;
+            color: white;
+            border: none;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+
+        .pick-card .btn-pick:hover {
+            background: #1a2d4a;
+        }
+
+        /* Discussion Guides */
+        .guide-item {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border: 1px solid #e2e8f0;
+            transition: 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .guide-item:hover {
+            border-color: #2563eb;
+            box-shadow: 0 2px 10px rgba(37, 99, 235, 0.1);
+        }
+
+        .guide-item .guide-info h6 {
+            margin: 0;
+            font-weight: 600;
+            color: #0b1a33;
+        }
+
+        .guide-item .guide-info p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .guide-item .btn-download {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+
+        .guide-item .btn-download:hover {
+            background: #1d4ed8;
+        }
+
+        /* Meeting Schedule */
+        .meeting-card {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border-left: 4px solid #2563eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .meeting-card .meeting-info h6 {
+            margin: 0;
+            font-weight: 600;
+            color: #0b1a33;
+        }
+
+        .meeting-card .meeting-info p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .meeting-card .meeting-date {
+            background: #f1f5f9;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: #0b1a33;
+            font-weight: 600;
+        }
+
+        /* Start Your Own Club */
+        .start-club-section {
+            background: linear-gradient(135deg, #0b1a33, #1a2d4a);
+            color: white;
+            padding: 50px 40px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .start-club-section h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .start-club-section p {
+            color: #cbd5e1;
+            max-width: 600px;
+            margin: 0 auto 20px;
+        }
+
+        .start-club-section .btn-start {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            transition: 0.3s;
+        }
+
+        .start-club-section .btn-start:hover {
+            background: #1d4ed8;
+            transform: scale(1.05);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+            .start-club-section {
+                padding: 30px 20px;
+            }
+            .start-club-section h2 {
+                font-size: 1.5rem;
+            }
+            .guide-item {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            .meeting-card {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========== NAVIGATION ========== -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-book-open me-2"></i>Trost BookStore
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="books.html">Books</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="bookclubs.html">Book Clubs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="new-arrivals.html">New Arrivals</a></li>
+                    <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== PAGE HEADER ========== -->
+    <section class="page-header">
+        <div class="container">
+            <h1><i class="fas fa-users"></i> Book Clubs</h1>
+            <p>Join a community of book lovers and discover your next great read</p>
+        </div>
+    </section>
+
+    <!-- ========== CURRENT PICKS ========== -->
+    <div class="container">
+        <h3 class="mb-3"><i class="fas fa-star" style="color: #f59e0b;"></i> Current Book Club Picks</h3>
+        <p class="text-muted mb-4">This month's selections from our active book clubs</p>
+        
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="pick-card">
+                    <div class="pick-rank"><i class="fas fa-crown"></i> Fiction Club Pick</div>
+                    <div class="pick-title">The Alchemist</div>
+                    <div class="pick-author">by Paulo Coelho</div>
+                    <div class="pick-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        <span style="color:#64748b;font-size:0.85rem;">(4.8/5)</span>
+                    </div>
+                    <p style="font-size:0.9rem;color:#475569;">A magical journey of self-discovery and following your dreams.</p>
+                    <button class="btn-pick"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="pick-card">
+                    <div class="pick-rank"><i class="fas fa-crown"></i> Non-Fiction Pick</div>
+                    <div class="pick-title">Atomic Habits</div>
+                    <div class="pick-author">by James Clear</div>
+                    <div class="pick-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        <span style="color:#64748b;font-size:0.85rem;">(4.9/5)</span>
+                    </div>
+                    <p style="font-size:0.9rem;color:#475569;">Transform your life with tiny changes that lead to remarkable results.</p>
+                    <button class="btn-pick"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="pick-card">
+                    <div class="pick-rank"><i class="fas fa-crown"></i> Classics Club Pick</div>
+                    <div class="pick-title">Pride and Prejudice</div>
+                    <div class="pick-author">by Jane Austen</div>
+                    <div class="pick-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        <span style="color:#64748b;font-size:0.85rem;">(4.7/5)</span>
+                    </div>
+                    <p style="font-size:0.9rem;color:#475569;">A timeless romance exploring love, class, and society in Georgian England.</p>
+                    <button class="btn-pick"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== AVAILABLE CLUBS ========== -->
+    <div class="container">
+        <h3 class="mb-3"><i class="fas fa-users" style="color: #2563eb;"></i> Join a Book Club</h3>
+        <p class="text-muted mb-4">Find your people and dive into great discussions</p>
+
+        <div class="row g-4 mb-5">
+            <!-- Club 1 -->
+            <div class="col-md-4">
+                <div class="club-card">
+                    <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400&h=200&fit=crop" class="club-image" alt="Fiction Club">
+                    <div class="club-body">
+                        <div class="club-title">📖 Fiction Lovers</div>
+                        <div class="club-meta"><i class="fas fa-users"></i> 234 members</div>
+                        <div class="club-meta"><i class="fas fa-calendar-alt"></i> Meets every Wednesday</div>
+                        <div class="club-description">For readers who love getting lost in imaginary worlds, compelling characters, and unforgettable stories.</div>
+                        <div class="club-tags">
+                            <span>#Fiction</span>
+                            <span>#Romance</span>
+                            <span>#Mystery</span>
+                            <span>#SciFi</span>
+                        </div>
+                        <button class="btn-join"><i class="fas fa-user-plus"></i> Join Club</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Club 2 -->
+            <div class="col-md-4">
+                <div class="club-card">
+                    <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400&h=200&fit=crop" class="club-image" alt="Non-Fiction Club">
+                    <div class="club-body">
+                        <div class="club-title">📚 Knowledge Seekers</div>
+                        <div class="club-meta"><i class="fas fa-users"></i> 189 members</div>
+                        <div class="club-meta"><i class="fas fa-calendar-alt"></i> Meets every Friday</div>
+                        <div class="club-description">Dedicated to exploring non-fiction, from history and science to self-improvement and business.</div>
+                        <div class="club-tags">
+                            <span>#NonFiction</span>
+                            <span>#History</span>
+                            <span>#Science</span>
+                            <span>#Business</span>
+                        </div>
+                        <button class="btn-join"><i class="fas fa-user-plus"></i> Join Club</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Club 3 -->
+            <div class="col-md-4">
+                <div class="club-card">
+                    <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=400&h=200&fit=crop" class="club-image" alt="Classics Club">
+                    <div class="club-body">
+                        <div class="club-title">📜 Timeless Classics</div>
+                        <div class="club-meta"><i class="fas fa-users"></i> 156 members</div>
+                        <div class="club-meta"><i class="fas fa-calendar-alt"></i> Meets every Saturday</div>
+                        <div class="club-description">Celebrating the great works of literature that have stood the test of time and shaped our world.</div>
+                        <div class="club-tags">
+                            <span>#Classics</span>
+                            <span>#Literature</span>
+                            <span>#Philosophy</span>
+                            <span>#Poetry</span>
+                        </div>
+                        <button class="btn-join"><i class="fas fa-user-plus"></i> Join Club</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Club 4 -->
+            <div class="col-md-4">
+                <div class="club-card">
+                    <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&h=200&fit=crop" class="club-image" alt="Self-Help Club">
+                    <div class="club-body">
+                        <div class="club-title">🌱 Growth Mindset</div>
+                        <div class="club-meta"><i class="fas fa-users"></i> 312 members</div>
+                        <div class="club-meta"><i class="fas fa-calendar-alt"></i> Meets every Tuesday</div>
+                        <div class="club-description">For those committed to personal growth, self-improvement, and becoming the best version of themselves.</div>
+                        <div class="club-tags">
+                            <span>#SelfHelp</span>
+                            <span>#Motivation</span>
+                            <span>#Growth</span>
+                            <span>#Mindset</span>
+                        </div>
+                        <button class="btn-join"><i class="fas fa-user-plus"></i> Join Club</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Club 5 -->
+            <div class="col-md-4">
+                <div class="club-card">
+                    <img src="https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=400&h=200&fit=crop" class="club-image" alt="African Literature Club">
+                    <div class="club-body">
+                        <div class="club-title">🌍 African Voices</div>
+                        <div class="club-meta"><i class="fas fa-users"></i> 97 members</div>
+                        <div class="club-meta"><i class="fas fa-calendar-alt"></i> Meets every Thursday</div>
+                        <div class="club-description">Celebrating African literature, authors, and stories that capture the continent's rich diversity and history.</div>
+                        <div class="club-tags">
+                            <span>#AfricanLit</span>
+                            <span>#Diaspora</span>
+                            <span>#Culture</span>
+                            <span>#Storytelling</span>
+                        </div>
+                        <button class="btn-join"><i class="fas fa-user-plus"></i> Join Club</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Club 6 -->
+            <div class="col-md-4">
+                <div class="club-card">
+                    <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&h=200&fit=crop" class="club-image" alt="Young Readers Club">
+                    <div class="club-body">
+                        <div class="club-title">🧒 Young Readers</div>
+                        <div class="club-meta"><i class="fas fa-users"></i> 78 members</div>
+                        <div class="club-meta"><i class="fas fa-calendar-alt"></i> Meets every Saturday</div>
+                        <div class="club-description">A club for young readers aged 8-14 to explore new worlds, make friends, and develop a love for reading.</div>
+                        <div class="club-tags">
+                            <span>#KidsBooks</span>
+                            <span>#YA</span>
+                            <span>#Adventure</span>
+                            <span>#Fantasy</span>
+                        </div>
+                        <button class="btn-join"><i class="fas fa-user-plus"></i> Join Club</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== DISCUSSION GUIDES ========== -->
+    <div class="container">
+        <h3 class="mb-3"><i class="fas fa-comments" style="color: #2563eb;"></i> Discussion Guides</h3>
+        <p class="text-muted mb-4">Enhance your book club meetings with these comprehensive guides</p>
+
+        <div class="guide-item">
+            <div class="guide-info">
+                <h6>📖 "The Alchemist" Discussion Guide</h6>
+                <p>By Paulo Coelho • 15 questions • 8 pages</p>
+            </div>
+            <button class="btn-download"><i class="fas fa-download"></i> Download PDF</button>
+        </div>
+
+        <div class="guide-item">
+            <div class="guide-info">
+                <h6>📖 "Atomic Habits" Discussion Guide</h6>
+                <p>By James Clear • 12 questions • 6 pages</p>
+            </div>
+            <button class="btn-download"><i class="fas fa-download"></i> Download PDF</button>
+        </div>
+
+        <div class="guide-item">
+            <div class="guide-info">
+                <h6>📖 "Pride and Prejudice" Discussion Guide</h6>
+                <p>By Jane Austen • 18 questions • 10 pages</p>
+            </div>
+            <button class="btn-download"><i class="fas fa-download"></i> Download PDF</button>
+        </div>
+
+        <div class="guide-item">
+            <div class="guide-info">
+                <h6>📖 "Things Fall Apart" Discussion Guide</h6>
+                <p>By Chinua Achebe • 14 questions • 7 pages</p>
+            </div>
+            <button class="btn-download"><i class="fas fa-download"></i> Download PDF</button>
+        </div>
+
+        <div class="guide-item">
+            <div class="guide-info">
+                <h6>📖 "The Power of Now" Discussion Guide</h6>
+                <p>By Eckhart Tolle • 10 questions • 5 pages</p>
+            </div>
+            <button class="btn-download"><i class="fas fa-download"></i> Download PDF</button>
+        </div>
+    </div>
+
+    <!-- ========== MEETING SCHEDULE ========== -->
+    <div class="container mt-4">
+        <h3 class="mb-3"><i class="fas fa-calendar-check" style="color: #2563eb;"></i> Meeting Schedule</h3>
+        <p class="text-muted mb-4">Upcoming book club meetings</p>
+
+        <div class="meeting-card">
+            <div class="meeting-info">
+                <h6>📖 Fiction Lovers - "The Alchemist"</h6>
+                <p><i class="fas fa-clock"></i> Wednesday, July 5, 2026 • 6:00 PM - 8:00 PM</p>
+                <p><i class="fas fa-map-marker-alt"></i> Trost BookStore Main Hall</p>
+            </div>
+            <div class="meeting-date">📅 5 July</div>
+        </div>
+
+        <div class="meeting-card">
+            <div class="meeting-info">
+                <h6>📚 Knowledge Seekers - "Atomic Habits"</h6>
+                <p><i class="fas fa-clock"></i> Friday, July 7, 2026 • 5:30 PM - 7:30 PM</p>
+                <p><i class="fas fa-map-marker-alt"></i> Trost BookStore Conference Room</p>
+            </div>
+            <div class="meeting-date">📅 7 July</div>
+        </div>
+
+        <div class="meeting-card">
+            <div class="meeting-info">
+                <h6>📜 Timeless Classics - "Pride and Prejudice"</h6>
+                <p><i class="fas fa-clock"></i> Saturday, July 8, 2026 • 3:00 PM - 5:00 PM</p>
+                <p><i class="fas fa-map-marker-alt"></i> Online (Zoom)</p>
+            </div>
+            <div class="meeting-date">📅 8 July</div>
+        </div>
+
+        <div class="meeting-card">
+            <div class="meeting-info">
+                <h6>🌱 Growth Mindset - "The Power of Now"</h6>
+                <p><i class="fas fa-clock"></i> Tuesday, July 11, 2026 • 6:30 PM - 8:00 PM</p>
+                <p><i class="fas fa-map-marker-alt"></i> Trost BookStore Community Space</p>
+            </div>
+            <div class="meeting-date">📅 11 July</div>
+        </div>
+
+        <div class="meeting-card">
+            <div class="meeting-info">
+                <h6>🌍 African Voices - "Things Fall Apart"</h6>
+                <p><i class="fas fa-clock"></i> Thursday, July 13, 2026 • 5:00 PM - 7:00 PM</p>
+                <p><i class="fas fa-map-marker-alt"></i> Online (Zoom)</p>
+            </div>
+            <div class="meeting-date">📅 13 July</div>
+        </div>
+    </div>
+
+    <!-- ========== CLUB MEMBER REVIEWS ========== -->
+    <div class="container mt-4">
+        <h3 class="mb-3"><i class="fas fa-star" style="color: #f59e0b;"></i> What Members Are Saying</h3>
+        <p class="text-muted mb-4">Reviews from our book club community</p>
+
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="pick-card">
+                    <div class="pick-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p style="color:#475569;font-style:italic;">"Being part of the Fiction Lovers club has completely transformed my reading experience. The discussions are insightful and I've made wonderful friends!"</p>
+                    <div style="font-weight:600;color:#0b1a33;">— Sarah M.</div>
+                    <div style="font-size:0.85rem;color:#64748b;">Member since 2024</div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="pick-card">
+                    <div class="pick-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p style="color:#475569;font-style:italic;">"I've read more books this year than ever before! The Knowledge Seekers club keeps me accountable and introduces me to topics I'd never explore on my own."</p>
+                    <div style="font-weight:600;color:#0b1a33;">— James K.</div>
+                    <div style="font-size:0.85rem;color:#64748b;">Member since 2023</div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="pick-card">
+                    <div class="pick-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p style="color:#475569;font-style:italic;">"The African Voices club is a treasure! It's so meaningful to connect with others who appreciate African literature and share our cultural heritage through stories."</p>
+                    <div style="font-weight:600;color:#0b1a33;">— Aisha O.</div>
+                    <div style="font-size:0.85rem;color:#64748b;">Member since 2025</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== START YOUR OWN CLUB ========== -->
+    <div class="container">
+        <div class="start-club-section">
+            <i class="fas fa-rocket" style="font-size: 3rem; color: #2563eb; margin-bottom: 15px;"></i>
+            <h2>Start Your Own Book Club</h2>
+            <p>Have a passion for a specific genre or theme? Create your own book club and build a community of like-minded readers.</p>
+            <button class="btn-start"><i class="fas fa-plus-circle"></i> Start a Club</button>
+            <p style="margin-top: 15px; font-size: 0.85rem; color: #94a3b8;">
+                <i class="fas fa-check-circle"></i> Free to start • 
+                <i class="fas fa-check-circle"></i> We'll promote your club • 
+                <i class="fas fa-check-circle"></i> Get 20% off for members
+            </p>
+        </div>
+    </div>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Trost BookStore</h5>
+                    <p>Your gateway to endless stories. All in one place 📖</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-white-50">Home</a></li>
+                        <li><a href="about.html" class="text-white-50">About Us</a></li>
+                        <li><a href="contact.html" class="text-white-50">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Follow Us</h5>
+                    <a href="#" class="text-white-50 me-2"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-white-50 me-2"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-white-50"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // ========== JOIN CLUB FUNCTIONALITY ==========
+        document.querySelectorAll('.btn-join').forEach(button => {
+            button.addEventListener('click', function() {
+                if (this.classList.contains('joined')) {
+                    this.classList.remove('joined');
+                    this.innerHTML = '<i class="fas fa-user-plus"></i> Join Club';
+                    alert('You have left the club.');
+                } else {
+                    this.classList.add('joined');
+                    this.innerHTML = '<i class="fas fa-check"></i> Joined';
+                    alert('🎉 Welcome to the club! You\'ll receive meeting reminders via email.');
+                }
+            });
+        });
+
+        // ========== DOWNLOAD GUIDES ==========
+        document.querySelectorAll('.btn-download').forEach(button => {
+            button.addEventListener('click', function() {
+                alert('📄 Downloading discussion guide...');
+            });
+        });
+
+        // ========== BUY NOW BUTTONS ==========
+        document.querySelectorAll('.btn-pick').forEach(button => {
+            button.addEventListener('click', function() {
+                const title = this.closest('.pick-card').querySelector('.pick-title').textContent;
+                alert(`🛒 "${title}" has been added to your cart!`);
+            });
+        });
+
+        // ========== START CLUB ==========
+        document.querySelector('.btn-start').addEventListener('click', function() {
+            alert('📝 Great! Fill out our club application form to get started. We\'ll be in touch within 24 hours.');
+        });
+    </script>
+
+</body>
+</html>
