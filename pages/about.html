@@ -5,135 +5,886 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us - Trost BookStore</title>
 
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        .hero-section{
-            background: linear-gradient(135deg,#0d6efd,#6610f2);
-            color:white;
-            padding:100px 0;
-            text-align:center;
+        /* ===== THEME TOGGLE BUTTON ===== */
+        .theme-toggle {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 1.2rem;
+            margin: 0 5px;
         }
 
-        .icon-box{
-            transition:0.3s;
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #0d6efd;
+            transform: rotate(20deg);
         }
 
-        .icon-box:hover{
-            transform:translateY(-8px);
+        .theme-toggle:focus {
+            outline: none;
         }
 
-        .quote-section{
-            background:#f8f9fa;
-            padding:60px 0;
-            font-style:italic;
+        /* ===== CSS VARIABLES FOR THEMING ===== */
+        :root {
+            /* Light Mode (Default) */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-card: #ffffff;
+            --bg-navbar: #0b1a33;
+            --text-primary: #0b1a33;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-color: rgba(0,0,0,0.06);
+            --shadow-hover: rgba(0,0,0,0.1);
+            --footer-bg: #0b1a33;
+            --footer-text: #ffffff;
+            --hero-bg: linear-gradient(135deg, #0d6efd, #6610f2);
+            --quote-bg: #f8f9fa;
+            --btn-primary-bg: #0d6efd;
+            --btn-primary-hover: #0b5ed7;
+            --icon-hover: #0d6efd;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Mode */
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #1e293b;
+            --bg-navbar: #0f172a;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --shadow-color: rgba(0,0,0,0.3);
+            --shadow-hover: rgba(0,0,0,0.5);
+            --footer-bg: #0f172a;
+            --footer-text: #f1f5f9;
+            --hero-bg: linear-gradient(135deg, #1a2d4a, #2d1b4e);
+            --quote-bg: #1e293b;
+            --btn-primary-bg: #2563eb;
+            --btn-primary-hover: #1d4ed8;
+            --icon-hover: #60a5fa;
+        }
+
+        /* ===== APPLY VARIABLES ===== */
+        body {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            padding-top: 76px;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: var(--bg-navbar) !important;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: var(--hero-bg);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+            transition: background 0.3s ease;
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            font-weight: 700;
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* About Content */
+        .about-content h2 {
+            color: var(--text-primary);
+        }
+
+        .about-content p {
+            color: var(--text-secondary);
+        }
+
+        /* Values / Icon Boxes */
+        .icon-box {
+            transition: 0.3s;
+            padding: 20px;
+            border-radius: 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 8px var(--shadow-color);
+            height: 100%;
+        }
+
+        .icon-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px var(--shadow-hover);
+        }
+
+        .icon-box i {
+            font-size: 2.5rem;
+            color: var(--icon-hover);
+            margin-bottom: 15px;
+            transition: 0.3s;
+        }
+
+        .icon-box:hover i {
+            transform: scale(1.1);
+        }
+
+        .icon-box h4 {
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .icon-box p {
+            color: var(--text-secondary);
+        }
+
+        /* Quote Section */
+        .quote-section {
+            background: var(--quote-bg);
+            padding: 60px 0;
+            font-style: italic;
+            transition: background 0.3s ease;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .quote-section h3 {
+            color: var(--text-primary);
+            font-size: 1.8rem;
+            font-weight: 400;
+        }
+
+        .quote-section .quote-author {
+            color: var(--text-muted);
+            font-size: 1rem;
+            font-style: normal;
+            margin-top: 10px;
+        }
+
+        /* Team / Vision Section */
+        .vision-section h2 {
+            color: var(--text-primary);
+        }
+
+        .vision-section p {
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Images */
+        .about-image {
+            border-radius: 12px;
+            box-shadow: 0 4px 20px var(--shadow-color);
+            transition: 0.3s;
+            width: 100%;
+            height: auto;
+        }
+
+        .about-image:hover {
+            transform: scale(1.01);
+            box-shadow: 0 8px 30px var(--shadow-hover);
+        }
+
+        /* ===== CART BUTTON STYLES ===== */
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 7px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .nav-link.btn-cart {
+            color: #fff !important;
+            background: #0d6efd;
+            border-radius: 2rem;
+            padding: 0.4rem 1.2rem;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .nav-link.btn-cart:hover {
+            background: #0b5ed7;
+            transform: scale(1.02);
+        }
+
+        .nav-link.btn-cart .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 8px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            min-width: 22px;
+            text-align: center;
+        }
+
+        /* Cart dropdown styles */
+        .cart-dropdown {
+            min-width: 320px;
+            max-width: 400px;
+            padding: 0;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            border: none;
+        }
+
+        .cart-dropdown .dropdown-header {
+            background: var(--bg-navbar);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px 12px 0 0;
+            font-weight: 600;
+        }
+
+        .cart-dropdown .dropdown-body {
+            max-height: 350px;
+            overflow-y: auto;
+            padding: 10px 15px;
+        }
+
+        .cart-dropdown .dropdown-item-cart {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .cart-dropdown .dropdown-item-cart:last-child {
+            border-bottom: none;
+        }
+
+        .cart-dropdown .dropdown-item-cart img {
+            width: 45px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .cart-dropdown .dropdown-item-cart .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-dropdown .dropdown-item-cart .cart-item-info h6 {
+            margin: 0;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .cart-dropdown .dropdown-item-cart .cart-item-info small {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        .cart-dropdown .dropdown-item-cart .cart-item-info .item-price {
+            color: #2563eb;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .cart-dropdown .dropdown-footer {
+            padding: 12px 20px;
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            border-radius: 0 0 12px 12px;
+        }
+
+        .cart-dropdown .dropdown-footer .total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .cart-dropdown .dropdown-footer .total span:last-child {
+            color: #2563eb;
+        }
+
+        .cart-dropdown .dropdown-footer .btn-view-cart {
+            width: 100%;
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .cart-dropdown .dropdown-footer .btn-view-cart:hover {
+            background: #1d4ed8;
+        }
+
+        .cart-empty-msg {
+            text-align: center;
+            padding: 25px 10px;
+            color: var(--text-muted);
+        }
+
+        .cart-empty-msg i {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .cart-dropdown .dropdown-menu {
+            background-color: var(--bg-card);
+            border-color: var(--border-color);
+        }
+
+        /* ===== USER AUTH STYLES ===== */
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2rem;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #0d6efd;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .user-name {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .nav-link.btn-login {
+            color: #fff !important;
+            background: transparent;
+            border: 1.5px solid #0d6efd;
+            border-radius: 2rem;
+            padding: 0.4rem 1.2rem;
+            transition: 0.3s;
+        }
+
+        .nav-link.btn-login:hover {
+            background: #0d6efd;
+            color: white !important;
+        }
+
+        .nav-link.btn-signup {
+            color: #fff !important;
+            background: #0d6efd;
+            border-radius: 2rem;
+            padding: 0.4rem 1.2rem;
+            transition: 0.3s;
+        }
+
+        .nav-link.btn-signup:hover {
+            background: #0b5ed7;
+            transform: scale(1.02);
+        }
+
+        .nav-link.btn-logout {
+            color: #fff !important;
+            background: #dc3545;
+            border-radius: 2rem;
+            padding: 0.4rem 1.2rem;
+            transition: 0.3s;
+        }
+
+        .nav-link.btn-logout:hover {
+            background: #bb2d3b;
+        }
+
+        [data-theme="dark"] .user-info {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--footer-bg) !important;
+            transition: background-color 0.3s ease;
+        }
+
+        footer p, footer a {
+            color: var(--footer-text) !important;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 60px 0;
+            }
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            .quote-section h3 {
+                font-size: 1.3rem;
+            }
+            .icon-box {
+                margin-bottom: 20px;
+            }
+            .cart-dropdown {
+                min-width: 280px;
+                max-width: 300px;
+                position: fixed !important;
+                right: 10px !important;
+                left: auto !important;
+                top: 60px !important;
+            }
         }
     </style>
 </head>
 <body>
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="index.html">📚 Trost BookStore</a>
+    <!-- ========== NAVIGATION ========== -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-book-open me-2"></i>Trost BookStore
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="books.html">Books</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="booksclub.html">Book Club</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
 
-        <div class="navbar-nav ms-auto">
-            <a class="nav-link" href="index.html">Home</a>
-            <a class="nav-link active" href="about.html">About</a>
-            <a class="nav-link" href="contact.html">Contact</a>
+                    <!-- Theme Toggle Button -->
+                    <li class="nav-item">
+                        <button class="theme-toggle" id="themeToggle" type="button" title="Toggle Dark/Light Mode">
+                            <i class="fas fa-moon" id="themeIcon"></i>
+                        </button>   
+                    </li>
+                    
+                    <!-- Cart Button -->
+                    <li class="nav-item dropdown" id="cartDropdownContainer">
+                        <a class="nav-link btn-cart" href="#" id="cartDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-badge" id="cartBadge">0</span>
+                        </a>
+                        <ul class="dropdown-menu cart-dropdown dropdown-menu-end" aria-labelledby="cartDropdown">
+                            <li class="dropdown-header">
+                                <i class="fas fa-shopping-cart me-2"></i> Your Cart
+                            </li>
+                            <li class="dropdown-body" id="cartDropdownBody">
+                                <!-- Cart items will be loaded here -->
+                            </li>
+                            <li class="dropdown-footer" id="cartDropdownFooter">
+                                <div class="total">
+                                    <span>Total:</span>
+                                    <span id="cartDropdownTotal">KSH0.00</span>
+                                </div>
+                                <a href="cart.html" class="btn-view-cart">
+                                    <i class="fas fa-eye me-2"></i> View Cart
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    <!-- Login/Signup Links -->
+                    <li class="nav-item" id="authLinks">
+                        <!-- Dynamic content will be injected here -->
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
-<!-- Hero Section -->
-<section class="hero-section">
-    <div class="container">
-        <h1>About Trost BookStore</h1>
-        <p class="lead">
-            Connecting readers with stories that inspire, educate, and transform lives.
+    <!-- ========== HERO SECTION ========== -->
+    <section class="hero-section">
+        <div class="container">
+            <h1>About Trost BookStore</h1>
+            <p class="lead">
+                Connecting readers with stories that inspire, educate, and transform lives.
+            </p>
+        </div>
+    </section>
+
+    <!-- ========== ABOUT CONTENT ========== -->
+    <section class="container py-5 about-content">
+        <div class="row align-items-center">
+
+            <div class="col-md-6">
+                <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f"
+                     class="about-image"
+                     alt="Books">
+            </div>
+
+            <div class="col-md-6 mt-4 mt-md-0">
+                <h2>Who We Are</h2>
+                <p>
+                    Trost BookStore was created with a simple mission:
+                    to make books accessible to everyone seamlessly and diversifiably. 
+                    Whether you're searching for timeless classics, self-development guides,
+                    academic resources, or the latest bestsellers, we have
+                    something for every reader.
+                </p>
+
+                <p>
+                    We believe every book has the power to open minds,
+                    spark imagination, and create opportunities for growth.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ========== VALUES / WHY CHOOSE US ========== -->
+    <section class="container py-5">
+        <h2 class="text-center mb-5">Why Choose Us?</h2>
+
+        <div class="row text-center">
+
+            <div class="col-md-4 mb-4">
+                <div class="icon-box">
+                    <i class="fas fa-book-open"></i>
+                    <h4>Wide Collection</h4>
+                    <p>Thousands of titles across multiple genres and interests.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="icon-box">
+                    <i class="fas fa-rocket"></i>
+                    <h4>Fast Service</h4>
+                    <p>Quick browsing and a seamless shopping experience.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="icon-box">
+                    <i class="fas fa-heart"></i>
+                    <h4>Passion for Reading</h4>
+                    <p>Built by book lovers, for book lovers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== QUOTE SECTION ========== -->
+    <section class="quote-section">
+        <div class="container text-center">
+            <h3>
+                <i class="fas fa-quote-left me-2" style="color: #0d6efd; opacity: 0.5;"></i>
+                "A reader lives a thousand lives before he dies. The man who never reads lives only one."
+                <i class="fas fa-quote-right ms-2" style="color: #0d6efd; opacity: 0.5;"></i>
+            </h3>
+            <div class="quote-author">— George R.R. Martin</div>
+        </div>
+    </section>
+
+    <!-- ========== VISION SECTION ========== -->
+    <section class="container py-5 text-center vision-section">
+        <h2>Our Vision</h2>
+
+        <p class="mt-4">
+            To become the go-to destination for readers worldwide,
+            creating a community where knowledge, imagination,
+            and creativity thrive.
         </p>
-    </div>
-</section>
+    </section>
 
-<!-- About Content -->
-<section class="container py-5">
-    <div class="row align-items-center">
-
-        <div class="col-md-6">
-            <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f"
-                 class="img-fluid rounded shadow"
-                 alt="Books">
+    <!-- ========== FOOTER ========== -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Trost BookStore</h5>
+                    <p>Your gateway to endless stories. All in one place 📖</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-white-50">Home</a></li>
+                        <li><a href="about.html" class="text-white-50">About Us</a></li>
+                        <li><a href="contact.html" class="text-white-50">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Follow Us</h5>
+                    <a href="#" class="text-white-50 me-2"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-white-50 me-2"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-white-50"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
         </div>
+    </footer>
 
-        <div class="col-md-6">
-            <h2>Who We Are</h2>
-            <p>
-                Trost BookStore was created with a simple mission:
-                to make books accessible to everyone seamlessly and diversifiably. 
-                Whether you're searching for timeless classics, self-development guides,
-                academic resources, or the latest bestsellers, we have
-                something for every reader.
-            </p>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 
-            <p>
-                We believe every book has the power to open minds,
-                spark imagination, and create opportunities for growth.
-            </p>
-        </div>
-
-    </div>
-</section>
-
-<!-- Values -->
-<section class="container py-5">
-    <h2 class="text-center mb-5">Why Choose Us?</h2>
-
-    <div class="row text-center">
-
-        <div class="col-md-4 icon-box">
+    <script>
+        // ===== DARK/LIGHT MODE TOGGLE =====
+        (function() {
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
             
-            <h4>Wide Collection</h4>
-            <p>Thousands of titles across multiple genres and interests.</p>
-        </div>
-
-        <div class="col-md-4 icon-box">
+            function updateIcon(theme) {
+                if (themeIcon) {
+                    if (theme === 'dark') {
+                        themeIcon.className = 'fas fa-sun';
+                        themeIcon.style.color = '#f59e0b';
+                    } else {
+                        themeIcon.className = 'fas fa-moon';
+                        themeIcon.style.color = 'white';
+                    }
+                }
+            }
             
-            <h4>Fast Service</h4>
-            <p>Quick browsing and a seamless shopping experience.</p>
-        </div>
-
-        <div class="col-md-4 icon-box">
+            function setTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                updateIcon(theme);
+            }
             
-            <h4>Passion for Reading</h4>
-            <p>Built by book lovers, for book lovers.</p>
-        </div>
-    </div>
-</section>
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                setTheme(savedTheme);
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                updateIcon('light');
+            }
+            
+            if (themeToggle) {
+                themeToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const currentTheme = document.documentElement.getAttribute('data-theme');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    setTheme(newTheme);
+                    
+                    const msg = newTheme === 'dark' ? '🌙 Dark mode activated' : '☀️ Light mode activated';
+                    showNotification(msg);
+                });
+            }
+        })();
 
-<!-- Quote Section -->
-<section class="quote-section">
-    <div class="container text-center">
-        <h3>
-            "A reader lives a thousand lives before he dies. SThe man who never reads lives only one."
-        </h3>
-    </div>
-</section>
+        // ===== NOTIFICATION FUNCTION =====
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            notification.style.cssText = `
+                position: fixed; 
+                bottom: 20px; 
+                right: 20px; 
+                background: ${isDark ? '#1e293b' : '#0b1a33'}; 
+                color: white; 
+                padding: 12px 20px; 
+                border-radius: 10px; 
+                z-index: 9999; 
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.style.opacity = '0';
+                    notification.style.transition = 'opacity 0.3s';
+                    setTimeout(() => notification.remove(), 300);
+                }
+            }, 2000);
+        }
 
-<!-- Team Section -->
-<section class="container py-5 text-center">
-    <h2>Our Vision</h2>
+        // ===== AUTHENTICATION SYSTEM =====
+        const currentUser = localStorage.getItem('currentUser');
+        const authLinks = document.getElementById('authLinks');
 
-    <p class="mt-4">
-        To become the go-to destination for readers worldwide,
-        creating a community where knowledge, imagination,
-        and creativity thrive.
-    </p>
-</section>
+        function updateAuthUI() {
+            if (currentUser) {
+                const userData = JSON.parse(localStorage.getItem('userData')) || {};
+                const userName = userData.name || currentUser;
 
-<!-- Footer -->
-<footer class="bg-dark text-white text-center py-4">
-    <p>&copy; 2026 Trost BookStore. All Rights Reserved.</p>
-</footer>
+                authLinks.innerHTML = `
+                    <div class="user-info ms-2">
+                        <div class="user-avatar">${userName.charAt(0).toUpperCase()}</div>
+                        <span class="user-name">${userName}</span>
+                    </div>
+                    <li class="nav-item">
+                        <a class="nav-link btn-logout" href="#" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
+                `;
+            } else {
+                authLinks.innerHTML = `
+                    <li class="nav-item">
+                        <a class="nav-link btn-login" href="login.html">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-signup" href="signup.html">
+                            <i class="fas fa-user-plus"></i> Sign Up
+                        </a>
+                    </li>
+                `;
+            }
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('userData');
+                window.location.href = 'index.html';
+            }
+        }
+
+        // ===== CART SYSTEM =====
+        function getCart() {
+            return JSON.parse(localStorage.getItem('cart')) || [];
+        }
+
+        function saveCart(cart) {
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cart = getCart();
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById('cartBadge');
+            if (badge) {
+                badge.textContent = totalItems;
+            }
+            renderCartDropdown();
+        }
+
+        function renderCartDropdown() {
+            const cart = getCart();
+            const body = document.getElementById('cartDropdownBody');
+            const footer = document.getElementById('cartDropdownFooter');
+            const totalSpan = document.getElementById('cartDropdownTotal');
+            
+            if (!body) return;
+            
+            if (cart.length === 0) {
+                body.innerHTML = `
+                    <div class="cart-empty-msg">
+                        <i class="fas fa-shopping-bag"></i>
+                        <p>Your cart is empty</p>
+                        <small>Start adding some books!</small>
+                    </div>
+                `;
+                if (footer) footer.style.display = 'none';
+                return;
+            }
+
+            if (footer) footer.style.display = 'block';
+            
+            let html = '';
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                html += `
+                    <div class="dropdown-item-cart">
+                        <img src="${item.image || 'https://via.placeholder.com/45x60/0b1a33/ffffff?text=Book'}" alt="${item.title}">
+                        <div class="cart-item-info">
+                            <h6>${item.title}</h6>
+                            <small>Qty: ${item.quantity}</small>
+                            <div class="item-price">KSH ${(item.price * item.quantity).toLocaleString()}</div>
+                        </div>
+                        <div style="display:flex;gap:4px;flex-direction:column;">
+                            <button onclick="updateQuantity(${index}, 1)" style="background:#2563eb;color:white;border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;">+</button>
+                            <button onclick="updateQuantity(${index}, -1)" style="background:#ef4444;color:white;border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;">-</button>
+                            <button onclick="removeFromCart(${index})" style="background:#dc3545;color:white;border:none;border-radius:4px;font-size:0.6rem;padding:2px 4px;cursor:pointer;">✕</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            body.innerHTML = html;
+            if (totalSpan) totalSpan.textContent = `KSH ${total.toLocaleString()}`;
+        }
+
+        function updateQuantity(index, change) {
+            let cart = getCart();
+            if (!cart[index]) return;
+            
+            cart[index].quantity += change;
+            
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            
+            saveCart(cart);
+            renderCartDropdown();
+        }
+
+        function removeFromCart(index) {
+            let cart = getCart();
+            cart.splice(index, 1);
+            saveCart(cart);
+            renderCartDropdown();
+        }
+
+        // ===== INITIALIZE =====
+        updateAuthUI();
+        updateCartUI();
+
+        // Update cart when dropdown is shown
+        const cartContainer = document.getElementById('cartDropdownContainer');
+        if (cartContainer) {
+            cartContainer.addEventListener('shown.bs.dropdown', function() {
+                renderCartDropdown();
+            });
+        }
+    </script>
 
 </body>
 </html>
