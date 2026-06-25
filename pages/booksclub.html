@@ -51,11 +51,21 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.1);
         }
 
-        .club-card .club-image {
+        .club-card .club-image-wrapper {
             width: 100%;
             height: 200px;
-            object-fit: cover;
+            overflow: hidden;
             background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .club-card .club-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 10px;
         }
 
         .club-card .club-body {
@@ -72,7 +82,7 @@
         .club-card .club-meta {
             color: #64748b;
             font-size: 0.9rem;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
 
         .club-card .club-meta i {
@@ -91,6 +101,7 @@
             flex-wrap: wrap;
             gap: 6px;
             margin-bottom: 15px;
+            justify-content: center;
         }
 
         .club-card .club-tags span {
@@ -128,6 +139,7 @@
             transition: 0.3s;
             height: 100%;
             border-left: 4px solid #2563eb;
+            text-align: center;
         }
 
         .pick-card:hover {
@@ -171,50 +183,6 @@
 
         .pick-card .btn-pick:hover {
             background: #1a2d4a;
-        }
-
-        /* Discussion Guides */
-        .guide-item {
-            background: white;
-            padding: 15px 20px;
-            border-radius: 10px;
-            margin-bottom: 12px;
-            border: 1px solid #e2e8f0;
-            transition: 0.3s;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .guide-item:hover {
-            border-color: #2563eb;
-            box-shadow: 0 2px 10px rgba(37, 99, 235, 0.1);
-        }
-
-        .guide-item .guide-info h6 {
-            margin: 0;
-            font-weight: 600;
-            color: #0b1a33;
-        }
-
-        .guide-item .guide-info p {
-            margin: 0;
-            font-size: 0.85rem;
-            color: #64748b;
-        }
-
-        .guide-item .btn-download {
-            background: #2563eb;
-            color: white;
-            border: none;
-            padding: 6px 18px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            transition: 0.3s;
-        }
-
-        .guide-item .btn-download:hover {
-            background: #1d4ed8;
         }
 
         /* Meeting Schedule */
@@ -286,6 +254,176 @@
             transform: scale(1.05);
         }
 
+        /* ===== CART BUTTON STYLES ===== */
+        .cart-btn {
+            position: relative;
+            color: white !important;
+            font-size: 1.2rem;
+            padding: 0.4rem 0.8rem;
+            transition: 0.3s;
+        }
+
+        .cart-btn:hover {
+            color: #0d6efd !important;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 7px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .nav-link.btn-cart {
+            color: #fff !important;
+            background: #0d6efd;
+            border-radius: 2rem;
+            padding: 0.4rem 1.2rem;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .nav-link.btn-cart:hover {
+            background: #0b5ed7;
+            transform: scale(1.02);
+        }
+
+        .nav-link.btn-cart .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 8px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            min-width: 22px;
+            text-align: center;
+        }
+
+        /* Cart dropdown styles */
+        .cart-dropdown {
+            min-width: 320px;
+            max-width: 400px;
+            padding: 0;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            border: none;
+        }
+
+        .cart-dropdown .dropdown-header {
+            background: #0b1a33;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px 12px 0 0;
+            font-weight: 600;
+        }
+
+        .cart-dropdown .dropdown-body {
+            max-height: 350px;
+            overflow-y: auto;
+            padding: 10px 15px;
+        }
+
+        .cart-dropdown .dropdown-item-cart {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .cart-dropdown .dropdown-item-cart:last-child {
+            border-bottom: none;
+        }
+
+        .cart-dropdown .dropdown-item-cart img {
+            width: 45px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .cart-dropdown .dropdown-item-cart .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-dropdown .dropdown-item-cart .cart-item-info h6 {
+            margin: 0;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #0b1a33;
+        }
+
+        .cart-dropdown .dropdown-item-cart .cart-item-info small {
+            color: #64748b;
+            font-size: 0.75rem;
+        }
+
+        .cart-dropdown .dropdown-item-cart .cart-item-info .item-price {
+            color: #2563eb;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .cart-dropdown .dropdown-footer {
+            padding: 12px 20px;
+            border-top: 1px solid #e2e8f0;
+            background: #f8fafc;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .cart-dropdown .dropdown-footer .total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .cart-dropdown .dropdown-footer .total span:last-child {
+            color: #2563eb;
+        }
+
+        .cart-dropdown .dropdown-footer .btn-view-cart {
+            width: 100%;
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .cart-dropdown .dropdown-footer .btn-view-cart:hover {
+            background: #1d4ed8;
+        }
+
+        .cart-empty-msg {
+            text-align: center;
+            padding: 25px 10px;
+            color: #94a3b8;
+        }
+
+        .cart-empty-msg i {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .page-header h1 {
@@ -297,15 +435,18 @@
             .start-club-section h2 {
                 font-size: 1.5rem;
             }
-            .guide-item {
-                flex-direction: column;
-                gap: 10px;
-                text-align: center;
-            }
             .meeting-card {
                 flex-direction: column;
                 gap: 10px;
                 text-align: center;
+            }
+            .cart-dropdown {
+                min-width: 280px;
+                max-width: 300px;
+                position: fixed !important;
+                right: 10px !important;
+                left: auto !important;
+                top: 60px !important;
             }
         }
     </style>
@@ -322,7 +463,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="books.html">Books</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
@@ -330,6 +471,31 @@
                     <li class="nav-item"><a class="nav-link" href="new-arrivals.html">New Arrivals</a></li>
                     <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                    
+                    <!-- ===== CART BUTTON ===== -->
+                    <li class="nav-item dropdown" id="cartDropdownContainer">
+                        <a class="nav-link btn-cart" href="#" id="cartDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-badge" id="cartBadge">0</span>
+                        </a>
+                        <ul class="dropdown-menu cart-dropdown dropdown-menu-end" aria-labelledby="cartDropdown">
+                            <li class="dropdown-header">
+                                <i class="fas fa-shopping-cart me-2"></i> Your Cart
+                            </li>
+                            <li class="dropdown-body" id="cartDropdownBody">
+                                <!-- Cart items will be loaded here -->
+                            </li>
+                            <li class="dropdown-footer" id="cartDropdownFooter">
+                                <div class="total">
+                                    <span>Total:</span>
+                                    <span id="cartDropdownTotal">KSH0.00</span>
+                                </div>
+                                <a href="cart.html" class="btn-view-cart">
+                                    <i class="fas fa-eye me-2"></i> View Cart
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -353,13 +519,15 @@
                 <div class="pick-card">
                     <div class="pick-rank"><i class="fas fa-crown"></i> Motivational Club Pick</div>
                     <div class="pick-title">How to Win Friends and Influence People</div>
-                    <div class="pick-author">by Dale Carnegie </div>
+                    <div class="pick-author">by Dale Carnegie</div>
                     <div class="pick-rating">
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                         <span style="color:#64748b;font-size:0.85rem;">(4.0/5)</span>
                     </div>
                     <p style="font-size:0.9rem;color:#475569;">Classic self-help guide focused on human connection, empathy, and effective communication.</p>
-                    <button class="btn-pick"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                    <button class="btn-pick" onclick="addToCart({id:101, title:'How to Win Friends and Influence People', price:650, image:'../images/htw.jpg'})">
+                        <i class="fas fa-shopping-cart"></i> Buy Now
+                    </button>
                 </div>
             </div>
             <div class="col-md-4">
@@ -371,8 +539,10 @@
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                         <span style="color:#64748b;font-size:0.85rem;">(4.9/5)</span>
                     </div>
-                    <p style="font-size:0.9rem;color:#475569;">Ahighly practical, scriptural guide focused on spiritual warfare, dismantling demonic influence, and achieving spiritual breakthroughs.</p>
-                    <button class="btn-pick"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                    <p style="font-size:0.9rem;color:#475569;">A highly practical, scriptural guide focused on spiritual warfare, dismantling demonic influence, and achieving spiritual breakthroughs.</p>
+                    <button class="btn-pick" onclick="addToCart({id:102, title:'How to Obtain Personal Deliverance', price:550, image:'../images/hopd.jpg'})">
+                        <i class="fas fa-shopping-cart"></i> Buy Now
+                    </button>
                 </div>
             </div>
             <div class="col-md-4">
@@ -384,8 +554,10 @@
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                         <span style="color:#64748b;font-size:0.85rem;">(4.7/5)</span>
                     </div>
-                    <p style="font-size:0.9rem;color:#475569;">Christian marriage guide  that teaches women how to cover their husbands and marriages in prayer.</p>
-                    <button class="btn-pick"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                    <p style="font-size:0.9rem;color:#475569;">Christian marriage guide that teaches women how to cover their husbands and marriages in prayer.</p>
+                    <button class="btn-pick" onclick="addToCart({id:103, title:'The Power of a Praying Wife', price:1100, image:'../images/ppw.jpg'})">
+                        <i class="fas fa-shopping-cart"></i> Buy Now
+                    </button>
                 </div>
             </div>
         </div>
@@ -400,17 +572,19 @@
             <!-- Club 1 -->
             <div class="col-md-4">
                 <div class="club-card">
-                    <img src="../images/econ.jpg">
+                    <div class="club-image-wrapper">
+                        <img src="../images/econ.jpg" alt="Economics Lovers">
+                    </div>
                     <div class="club-body">
                         <div class="club-title">💰 Economics Lovers</div>
                         <div class="club-meta"><i class="fas fa-users"></i> 154 members</div>
                         <div class="club-meta"><i class="fas fa-calendar-alt"></i> Meets every Wednesday</div>
-                        <div class="club-description">For readers who love and think as entreprenuers and have the feel of making money and being successful.</div>
+                        <div class="club-description">For readers who love and think as entrepreneurs and have the feel of making money and being successful.</div>
                         <div class="club-tags">
                             <span>#Money</span>
                             <span>#Success</span>
-                            <span>#Entreprenuers</span>
-                            <span>#business</span>
+                            <span>#Entrepreneurs</span>
+                            <span>#Business</span>
                         </div>
                         <button class="btn-join"><i class="fas fa-user-plus"></i> Join Club</button>
                     </div>
@@ -420,9 +594,11 @@
             <!-- Club 2 -->
             <div class="col-md-4">
                 <div class="club-card">
-                    <img src="../images/tmaa.jpg">
+                    <div class="club-image-wrapper">
+                        <img src="../images/tmaa.jpg" alt="Memoir & Autobiography Circle">
+                    </div>
                     <div class="club-body">
-                        <div class="club-title">📚 The Memoir & Autobiography Circle </div>
+                        <div class="club-title">📚 The Memoir & Autobiography Circle</div>
                         <div class="club-meta"><i class="fas fa-users"></i> 189 members</div>
                         <div class="club-meta"><i class="fas fa-calendar-alt"></i> Meets every Friday</div>
                         <div class="club-description">Discover history through the eyes of the people who lived it. We read and discuss powerful autobiographies and memoirs written in the author's own words.</div>
@@ -440,7 +616,9 @@
             <!-- Club 3 -->
             <div class="col-md-4">
                 <div class="club-card">
-                    <img src="../images/bscc.jpg">
+                    <div class="club-image-wrapper">
+                        <img src="../images/bscc.jpg" alt="Bible and Scripture Lovers">
+                    </div>
                     <div class="club-body">
                         <div class="club-title">📜 Bible and Scripture Lovers</div>
                         <div class="club-meta"><i class="fas fa-users"></i> 156 members</div>
@@ -460,7 +638,9 @@
             <!-- Club 4 -->
             <div class="col-md-4">
                 <div class="club-card">
-                    <img src="../images/gm.jpg">
+                    <div class="club-image-wrapper">
+                        <img src="../images/gm.jpg" alt="Growth Mindset">
+                    </div>
                     <div class="club-body">
                         <div class="club-title">🌱 Growth Mindset</div>
                         <div class="club-meta"><i class="fas fa-users"></i> 312 members</div>
@@ -480,7 +660,9 @@
             <!-- Club 5 -->
             <div class="col-md-4">
                 <div class="club-card">
-                    <img src="../images/av.jpg">
+                    <div class="club-image-wrapper">
+                        <img src="../images/av.jpg" alt="African Voices">
+                    </div>
                     <div class="club-body">
                         <div class="club-title">🌍 African Voices</div>
                         <div class="club-meta"><i class="fas fa-users"></i> 97 members</div>
@@ -500,7 +682,9 @@
             <!-- Club 6 -->
             <div class="col-md-4">
                 <div class="club-card">
-                    <img src="../images/yr.jpg"
+                    <div class="club-image-wrapper">
+                        <img src="../images/yr.jpg" alt="Young Readers">
+                    </div>
                     <div class="club-body">
                         <div class="club-title">🧒 Young Readers</div>
                         <div class="club-meta"><i class="fas fa-users"></i> 78 members</div>
@@ -605,6 +789,142 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
+        // ========== CART SYSTEM ==========
+        function getCart() {
+            return JSON.parse(localStorage.getItem('cart')) || [];
+        }
+
+        function saveCart(cart) {
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartUI();
+        }
+
+        function addToCart(book) {
+            let cart = getCart();
+            const existing = cart.find(item => item.id === book.id);
+            
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({
+                    id: book.id,
+                    title: book.title,
+                    price: book.price,
+                    quantity: 1,
+                    image: book.image
+                });
+            }
+            
+            saveCart(cart);
+            showNotification(`✅ "${book.title}" added to cart!`);
+        }
+
+        function removeFromCart(index) {
+            let cart = getCart();
+            cart.splice(index, 1);
+            saveCart(cart);
+            renderCartDropdown();
+        }
+
+        function updateQuantity(index, change) {
+            let cart = getCart();
+            if (!cart[index]) return;
+            
+            cart[index].quantity += change;
+            
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            
+            saveCart(cart);
+            renderCartDropdown();
+        }
+
+        function updateCartUI() {
+            const cart = getCart();
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById('cartBadge');
+            if (badge) {
+                badge.textContent = totalItems;
+            }
+            renderCartDropdown();
+        }
+
+        function renderCartDropdown() {
+            const cart = getCart();
+            const body = document.getElementById('cartDropdownBody');
+            const footer = document.getElementById('cartDropdownFooter');
+            const totalSpan = document.getElementById('cartDropdownTotal');
+            
+            if (cart.length === 0) {
+                body.innerHTML = `
+                    <div class="cart-empty-msg">
+                        <i class="fas fa-shopping-bag"></i>
+                        <p>Your cart is empty</p>
+                        <small>Start adding some books!</small>
+                    </div>
+                `;
+                footer.style.display = 'none';
+                return;
+            }
+
+            footer.style.display = 'block';
+            
+            let html = '';
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                html += `
+                    <div class="dropdown-item-cart">
+                        <img src="${item.image || 'https://via.placeholder.com/45x60/0b1a33/ffffff?text=Book'}" alt="${item.title}">
+                        <div class="cart-item-info">
+                            <h6>${item.title}</h6>
+                            <small>Qty: ${item.quantity}</small>
+                            <div class="item-price">KSH ${(item.price * item.quantity).toLocaleString()}</div>
+                        </div>
+                        <div style="display:flex;gap:4px;flex-direction:column;">
+                            <button onclick="updateQuantity(${index}, 1)" style="background:#2563eb;color:white;border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;">+</button>
+                            <button onclick="updateQuantity(${index}, -1)" style="background:#ef4444;color:white;border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;">-</button>
+                            <button onclick="removeFromCart(${index})" style="background:#dc3545;color:white;border:none;border-radius:4px;font-size:0.6rem;padding:2px 4px;cursor:pointer;">✕</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            body.innerHTML = html;
+            totalSpan.textContent = `KSH ${total.toLocaleString()}`;
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed; 
+                bottom: 20px; 
+                right: 20px; 
+                background: #16a34a; 
+                color: white; 
+                padding: 15px 25px; 
+                border-radius: 10px; 
+                z-index: 9999; 
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                animation: slideIn 0.3s ease;
+                max-width: 350px;
+            `;
+            notification.innerHTML = `${message} <span style="cursor:pointer;margin-left:15px;font-weight:bold;" onclick="this.parentElement.remove()">&times;</span>`;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.style.opacity = '0';
+                    notification.style.transition = 'opacity 0.3s';
+                    setTimeout(() => notification.remove(), 300);
+                }
+            }, 3000);
+        }
+
         // ========== JOIN CLUB FUNCTIONALITY ==========
         document.querySelectorAll('.btn-join').forEach(button => {
             button.addEventListener('click', function() {
@@ -620,25 +940,18 @@
             });
         });
 
-        // ========== DOWNLOAD GUIDES ==========
-        document.querySelectorAll('.btn-download').forEach(button => {
-            button.addEventListener('click', function() {
-                alert('📄 Downloading discussion guide...');
-            });
-        });
-
-        // ========== BUY NOW BUTTONS ==========
-        document.querySelectorAll('.btn-pick').forEach(button => {
-            button.addEventListener('click', function() {
-                const title = this.closest('.pick-card').querySelector('.pick-title').textContent;
-                alert(`🛒 "${title}" has been added to your cart!`);
-            });
-        });
-
         // ========== START CLUB ==========
         document.querySelector('.btn-start').addEventListener('click', function() {
             alert('📝 Great! Fill out our club application form to get started. We\'ll be in touch within 24 hours.');
         });
+
+        // ========== UPDATE CART ON DROPDOWN SHOW ==========
+        document.getElementById('cartDropdownContainer').addEventListener('shown.bs.dropdown', function() {
+            renderCartDropdown();
+        });
+
+        // ========== INITIALIZE ==========
+        updateCartUI();
     </script>
 
 </body>
