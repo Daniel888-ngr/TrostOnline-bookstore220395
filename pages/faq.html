@@ -12,14 +12,105 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* Simple styling - keeping it basic */
+        /* ===== THEME TOGGLE BUTTON ===== */
+        .theme-toggle {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 1.2rem;
+            margin: 0 5px;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #0d6efd;
+            transform: rotate(20deg);
+        }
+
+        .theme-toggle:focus {
+            outline: none;
+        }
+
+        /* ===== CSS VARIABLES FOR THEMING ===== */
+        :root {
+            /* Light Mode (Default) */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-navbar: #0b1a33;
+            --text-primary: #0b1a33;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-color: rgba(0,0,0,0.06);
+            --shadow-hover: rgba(0,0,0,0.1);
+            --input-bg: #ffffff;
+            --footer-bg: #0b1a33;
+            --footer-text: #ffffff;
+            --page-header-bg: #0b1a33;
+            --faq-bg: #ffffff;
+            --faq-hover: #f8fafc;
+            --contact-bg: #f1f5f9;
+            --btn-primary-bg: #2563eb;
+            --btn-primary-hover: #1d4ed8;
+            --category-border: #e2e8f0;
+            --category-text: #475569;
+            --category-hover: #2563eb;
+            --category-active: #2563eb;
+            --category-active-text: #ffffff;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Mode */
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #1e293b;
+            --bg-navbar: #0f172a;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --shadow-color: rgba(0,0,0,0.3);
+            --shadow-hover: rgba(0,0,0,0.5);
+            --input-bg: #1e293b;
+            --footer-bg: #0f172a;
+            --footer-text: #f1f5f9;
+            --page-header-bg: #0f172a;
+            --faq-bg: #1e293b;
+            --faq-hover: #2d3b4f;
+            --contact-bg: #1e293b;
+            --btn-primary-bg: #2563eb;
+            --btn-primary-hover: #1d4ed8;
+            --category-border: #334155;
+            --category-text: #94a3b8;
+            --category-hover: #60a5fa;
+            --category-active: #2563eb;
+            --category-active-text: #ffffff;
+        }
+
+        /* ===== APPLY VARIABLES ===== */
         body {
-            background: #f8fafc;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
             padding-top: 76px;
         }
 
+        /* Navbar */
+        .navbar {
+            background-color: var(--bg-navbar) !important;
+        }
+
         .faq-header {
-            background: #0b1a33;
+            background: var(--page-header-bg);
             color: white;
             padding: 50px 0 40px;
             text-align: center;
@@ -31,7 +122,7 @@
         }
 
         .faq-header p {
-            color: #cbd5e1;
+            color: var(--text-muted);
             font-size: 1.1rem;
         }
 
@@ -45,19 +136,26 @@
             border-radius: 30px 0 0 30px;
             padding: 12px 20px;
             border: none;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 15px var(--shadow-color);
+            background: var(--input-bg);
+            color: var(--text-primary);
+        }
+
+        .search-box input::placeholder {
+            color: var(--text-muted);
         }
 
         .search-box button {
             border-radius: 0 30px 30px 0;
-            background: #2563eb;
+            background: var(--btn-primary-bg);
             color: white;
             border: none;
             padding: 12px 25px;
+            transition: 0.3s;
         }
 
         .search-box button:hover {
-            background: #1d4ed8;
+            background: var(--btn-primary-hover);
         }
 
         /* Category buttons */
@@ -72,22 +170,22 @@
         .categories button {
             padding: 8px 20px;
             border-radius: 25px;
-            border: 2px solid #e2e8f0;
-            background: white;
-            color: #475569;
+            border: 2px solid var(--category-border);
+            background: var(--bg-card);
+            color: var(--category-text);
             font-weight: 500;
             transition: 0.3s;
         }
 
         .categories button:hover {
-            border-color: #2563eb;
-            color: #2563eb;
+            border-color: var(--category-hover);
+            color: var(--category-hover);
         }
 
         .categories .active {
-            background: #2563eb;
-            color: white;
-            border-color: #2563eb;
+            background: var(--category-active);
+            color: var(--category-active-text);
+            border-color: var(--category-active);
         }
 
         /* FAQ questions */
@@ -97,11 +195,12 @@
         }
 
         .faq-item {
-            border: 1px solid #eef2f6;
+            border: 1px solid var(--border-color);
             border-radius: 12px;
             margin-bottom: 12px;
-            background: white;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            background: var(--faq-bg);
+            box-shadow: 0 2px 6px var(--shadow-color);
+            transition: 0.3s;
         }
 
         .faq-question {
@@ -111,16 +210,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: white;
+            background: var(--faq-bg);
             border: none;
             width: 100%;
             text-align: left;
             border-radius: 12px;
             transition: 0.3s;
+            color: var(--text-primary);
         }
 
         .faq-question:hover {
-            background: #f8fafc;
+            background: var(--faq-hover);
         }
 
         .faq-question i {
@@ -130,7 +230,7 @@
 
         .faq-answer {
             padding: 0 20px 20px;
-            color: #475569;
+            color: var(--text-secondary);
             line-height: 1.6;
             display: none;
         }
@@ -150,7 +250,7 @@
         .section-title {
             font-size: 1.3rem;
             font-weight: 600;
-            color: #0b1a33;
+            color: var(--text-primary);
             border-bottom: 3px solid #2563eb;
             display: inline-block;
             padding-bottom: 5px;
@@ -167,43 +267,229 @@
             text-align: center;
             padding: 40px 20px;
             display: none;
+            color: var(--text-muted);
         }
 
         .no-results i {
             font-size: 2.5rem;
-            color: #94a3b8;
+            color: var(--text-muted);
         }
 
         /* Contact section */
         .contact-section {
-            background: #f1f5f9;
+            background: var(--contact-bg);
             border-radius: 20px;
             padding: 30px;
             text-align: center;
             max-width: 800px;
             margin: 0 auto 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .contact-section h3 {
+            color: var(--text-primary);
+        }
+
+        .contact-section p {
+            color: var(--text-secondary);
         }
 
         .contact-section .btn {
-            background: #2563eb;
+            background: var(--btn-primary-bg);
             color: white;
             padding: 10px 30px;
             border-radius: 30px;
             text-decoration: none;
             display: inline-block;
+            border: none;
+            transition: 0.3s;
         }
 
         .contact-section .btn:hover {
-            background: #1d4ed8;
+            background: var(--btn-primary-hover);
         }
 
         /* Results count */
         .result-count {
             text-align: center;
-            color: #64748b;
+            color: var(--text-muted);
             font-size: 0.9rem;
             min-height: 25px;
             margin-top: 5px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--footer-bg) !important;
+        }
+
+        footer h5, footer p, footer a {
+            color: var(--footer-text) !important;
+        }
+
+        /* ===== CART BUTTON STYLES ===== */
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 7px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .nav-link.btn-cart {
+            color: #fff !important;
+            background: #0d6efd;
+            border-radius: 2rem;
+            padding: 0.4rem 1.2rem;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .nav-link.btn-cart:hover {
+            background: #0b5ed7;
+            transform: scale(1.02);
+        }
+
+        .nav-link.btn-cart .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 8px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            min-width: 22px;
+            text-align: center;
+        }
+
+        /* Cart dropdown styles */
+        .cart-dropdown {
+            min-width: 320px;
+            max-width: 400px;
+            padding: 0;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            border: none;
+        }
+
+        .cart-dropdown .dropdown-header {
+            background: var(--bg-navbar);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px 12px 0 0;
+            font-weight: 600;
+        }
+
+        .cart-dropdown .dropdown-body {
+            max-height: 350px;
+            overflow-y: auto;
+            padding: 10px 15px;
+        }
+
+        .cart-dropdown .dropdown-item-cart {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .cart-dropdown .dropdown-item-cart:last-child {
+            border-bottom: none;
+        }
+
+        .cart-dropdown .dropdown-item-cart img {
+            width: 45px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .cart-dropdown .dropdown-item-cart .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-dropdown .dropdown-item-cart .cart-item-info h6 {
+            margin: 0;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .cart-dropdown .dropdown-item-cart .cart-item-info small {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        .cart-dropdown .dropdown-item-cart .cart-item-info .item-price {
+            color: #2563eb;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .cart-dropdown .dropdown-footer {
+            padding: 12px 20px;
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            border-radius: 0 0 12px 12px;
+        }
+
+        .cart-dropdown .dropdown-footer .total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .cart-dropdown .dropdown-footer .total span:last-child {
+            color: #2563eb;
+        }
+
+        .cart-dropdown .dropdown-footer .btn-view-cart {
+            width: 100%;
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .cart-dropdown .dropdown-footer .btn-view-cart:hover {
+            background: #1d4ed8;
+        }
+
+        .cart-empty-msg {
+            text-align: center;
+            padding: 25px 10px;
+            color: var(--text-muted);
+        }
+
+        .cart-empty-msg i {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .cart-dropdown .dropdown-menu {
+            background-color: var(--bg-card);
+            border-color: var(--border-color);
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
         /* Responsive */
@@ -218,10 +504,78 @@
                 font-size: 0.8rem;
                 padding: 6px 14px;
             }
+            .cart-dropdown {
+                min-width: 280px;
+                max-width: 300px;
+                position: fixed !important;
+                right: 10px !important;
+                left: auto !important;
+                top: 60px !important;
+            }
         }
     </style>
 </head>
 <body>
+
+    <!-- ========== NAVIGATION ========== -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-book-open me-2"></i>Trost BookStore
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="books.html">Books</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="booksclub.html">Book Club</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="faq.html">FAQ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+
+                    <!-- Theme Toggle Button -->
+                    <li class="nav-item">
+                        <button class="theme-toggle" id="themeToggle" type="button" title="Toggle Dark/Light Mode">
+                            <i class="fas fa-moon" id="themeIcon"></i>
+                        </button>   
+                    </li>
+                    
+                    <!-- Cart Button -->
+                    <li class="nav-item dropdown" id="cartDropdownContainer">
+                        <a class="nav-link btn-cart" href="#" id="cartDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-badge" id="cartBadge">0</span>
+                        </a>
+                        <ul class="dropdown-menu cart-dropdown dropdown-menu-end" aria-labelledby="cartDropdown">
+                            <li class="dropdown-header">
+                                <i class="fas fa-shopping-cart me-2"></i> Your Cart
+                            </li>
+                            <li class="dropdown-body" id="cartDropdownBody">
+                                <!-- Cart items will be loaded here -->
+                            </li>
+                            <li class="dropdown-footer" id="cartDropdownFooter">
+                                <div class="total">
+                                    <span>Total:</span>
+                                    <span id="cartDropdownTotal">KSH0.00</span>
+                                </div>
+                                <a href="cart.html" class="btn-view-cart">
+                                    <i class="fas fa-eye me-2"></i> View Cart
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    <!-- Login/Signup Links -->
+                    <li class="nav-item" id="authLinks">
+                        <!-- Dynamic content will be injected here -->
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
     <!-- Header -->
     <section class="faq-header">
@@ -457,7 +811,6 @@
                         <li><a href="index.html" class="text-white-50">Home</a></li>
                         <li><a href="about.html" class="text-white-50">About Us</a></li>
                         <li><a href="contact.html" class="text-white-50">Contact</a></li>
-                        
                     </ul>
                 </div>
                 <div class="col-md-4">
@@ -474,7 +827,170 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // Simple toggle function for accordion
+        // ===== DARK/LIGHT MODE TOGGLE =====
+        (function() {
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            
+            function updateIcon(theme) {
+                if (themeIcon) {
+                    if (theme === 'dark') {
+                        themeIcon.className = 'fas fa-sun';
+                        themeIcon.style.color = '#f59e0b';
+                    } else {
+                        themeIcon.className = 'fas fa-moon';
+                        themeIcon.style.color = 'white';
+                    }
+                }
+            }
+            
+            function setTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                updateIcon(theme);
+            }
+            
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                setTheme(savedTheme);
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                updateIcon('light');
+            }
+            
+            if (themeToggle) {
+                themeToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const currentTheme = document.documentElement.getAttribute('data-theme');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    setTheme(newTheme);
+                    
+                    const msg = newTheme === 'dark' ? '🌙 Dark mode activated' : '☀️ Light mode activated';
+                    showNotification(msg);
+                });
+            }
+        })();
+
+        // ===== NOTIFICATION FUNCTION =====
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            notification.style.cssText = `
+                position: fixed; 
+                bottom: 20px; 
+                right: 20px; 
+                background: ${isDark ? '#1e293b' : '#0b1a33'}; 
+                color: white; 
+                padding: 12px 20px; 
+                border-radius: 10px; 
+                z-index: 9999; 
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.style.opacity = '0';
+                    notification.style.transition = 'opacity 0.3s';
+                    setTimeout(() => notification.remove(), 300);
+                }
+            }, 2000);
+        }
+
+        // ===== CART SYSTEM =====
+        function getCart() {
+            return JSON.parse(localStorage.getItem('cart')) || [];
+        }
+
+        function saveCart(cart) {
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cart = getCart();
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById('cartBadge');
+            if (badge) {
+                badge.textContent = totalItems;
+            }
+            renderCartDropdown();
+        }
+
+        function renderCartDropdown() {
+            const cart = getCart();
+            const body = document.getElementById('cartDropdownBody');
+            const footer = document.getElementById('cartDropdownFooter');
+            const totalSpan = document.getElementById('cartDropdownTotal');
+            
+            if (!body) return;
+            
+            if (cart.length === 0) {
+                body.innerHTML = `
+                    <div class="cart-empty-msg">
+                        <i class="fas fa-shopping-bag"></i>
+                        <p>Your cart is empty</p>
+                        <small>Start adding some books!</small>
+                    </div>
+                `;
+                if (footer) footer.style.display = 'none';
+                return;
+            }
+
+            if (footer) footer.style.display = 'block';
+            
+            let html = '';
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                html += `
+                    <div class="dropdown-item-cart">
+                        <img src="${item.image || 'https://via.placeholder.com/45x60/0b1a33/ffffff?text=Book'}" alt="${item.title}">
+                        <div class="cart-item-info">
+                            <h6>${item.title}</h6>
+                            <small>Qty: ${item.quantity}</small>
+                            <div class="item-price">KSH ${(item.price * item.quantity).toLocaleString()}</div>
+                        </div>
+                        <div style="display:flex;gap:4px;flex-direction:column;">
+                            <button onclick="updateQuantity(${index}, 1)" style="background:#2563eb;color:white;border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;">+</button>
+                            <button onclick="updateQuantity(${index}, -1)" style="background:#ef4444;color:white;border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;">-</button>
+                            <button onclick="removeFromCart(${index})" style="background:#dc3545;color:white;border:none;border-radius:4px;font-size:0.6rem;padding:2px 4px;cursor:pointer;">✕</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            body.innerHTML = html;
+            if (totalSpan) totalSpan.textContent = `KSH ${total.toLocaleString()}`;
+        }
+
+        function updateQuantity(index, change) {
+            let cart = getCart();
+            if (!cart[index]) return;
+            
+            cart[index].quantity += change;
+            
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            
+            saveCart(cart);
+            renderCartDropdown();
+        }
+
+        function removeFromCart(index) {
+            let cart = getCart();
+            cart.splice(index, 1);
+            saveCart(cart);
+            renderCartDropdown();
+        }
+
+        // ===== SIMPLE TOGGLE FUNCTION FOR ACCORDION =====
         function toggleAnswer(button) {
             const answer = button.nextElementSibling;
             const icon = button.querySelector('i');
@@ -504,7 +1020,7 @@
             }
         }
 
-        // Search functionality
+        // ===== SEARCH FUNCTIONALITY =====
         const searchInput = document.getElementById('searchInput');
         const searchBtn = document.getElementById('searchBtn');
         const resultsCount = document.getElementById('resultsCount');
@@ -567,8 +1083,17 @@
             });
         });
 
-        // Initial load
+        // ===== UPDATE CART ON DROPDOWN SHOW =====
+        const cartContainer = document.getElementById('cartDropdownContainer');
+        if (cartContainer) {
+            cartContainer.addEventListener('shown.bs.dropdown', function() {
+                renderCartDropdown();
+            });
+        }
+
+        // ===== INITIALIZE =====
         setTimeout(filterFAQs, 100);
+        updateCartUI();
     </script>
 
 </body>
