@@ -12,6 +12,120 @@
     <link rel="stylesheet" href="css/style.css">
     
     <style>
+        /* ===== THEME TOGGLE BUTTON ===== */
+        .theme-toggle {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 1.2rem;
+            margin: 0 5px;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #0d6efd;
+            transform: rotate(20deg);
+        }
+
+        .theme-toggle:focus {
+            outline: none;
+        }
+
+        /* ===== CSS VARIABLES FOR THEMING ===== */
+        :root {
+            /* Light Mode (Default) */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-navbar: #0b1a33;
+            --text-primary: #0b1a33;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-color: rgba(0,0,0,0.06);
+            --shadow-hover: rgba(0,0,0,0.1);
+            --input-bg: #ffffff;
+            --footer-bg: #0b1a33;
+            --footer-text: #ffffff;
+            --hero-overlay: rgba(11, 26, 51, 0.8);
+        }
+
+        [data-theme="dark"] {
+            /* Dark Mode */
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #1e293b;
+            --bg-navbar: #0f172a;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --shadow-color: rgba(0,0,0,0.3);
+            --shadow-hover: rgba(0,0,0,0.5);
+            --input-bg: #1e293b;
+            --footer-bg: #0f172a;
+            --footer-text: #f1f5f9;
+            --hero-overlay: rgba(15, 23, 42, 0.85);
+        }
+
+        /* Apply variables to body */
+        body {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: var(--bg-navbar) !important;
+        }
+
+        /* Cards */
+        .card, .book-card {
+            background-color: var(--bg-card);
+            border-color: var(--border-color);
+            box-shadow: 0 2px 8px var(--shadow-color);
+        }
+
+        .card:hover, .book-card:hover {
+            box-shadow: 0 8px 25px var(--shadow-hover);
+        }
+
+        /* Text Colors */
+        .text-muted {
+            color: var(--text-muted) !important;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(var(--hero-overlay), var(--hero-overlay)), 
+                        url('../images/hero-banner.jpg');
+            background-size: cover;
+            background-position: center;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 76px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--footer-bg) !important;
+        }
+
+        footer h5, footer p, footer a {
+            color: var(--footer-text) !important;
+        }
+
         /* Additional styles for user authentication */
         .user-info {
             display: flex;
@@ -96,11 +210,6 @@
        
         .nav-link.btn-logout:hover {
             background: #bb2d3b;
-        }
-        
-        /* Hero section adjustment for fixed navbar */
-        .hero-section {
-            margin-top: 76px; /* Offset for fixed navbar */
         }
 
         /* ===== CART BUTTON STYLES ===== */
@@ -268,6 +377,78 @@
             margin-bottom: 10px;
         }
 
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Dark mode overrides for cart */
+        [data-theme="dark"] .cart-dropdown .dropdown-header {
+            background: var(--bg-navbar);
+        }
+
+        [data-theme="dark"] .cart-dropdown .dropdown-footer {
+            background: var(--bg-secondary);
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .cart-dropdown .dropdown-item-cart {
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .cart-dropdown .dropdown-item-cart .cart-item-info h6 {
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .cart-dropdown .dropdown-item-cart .cart-item-info .item-price {
+            color: #60a5fa;
+        }
+
+        [data-theme="dark"] .cart-empty-msg {
+            color: var(--text-muted);
+        }
+
+        [data-theme="dark"] .dropdown-menu {
+            background-color: var(--bg-card);
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .user-info {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        [data-theme="dark"] .book-price {
+            color: #60a5fa;
+        }
+
+        [data-theme="dark"] .book-card .book-title {
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .book-card .book-author {
+            color: var(--text-muted);
+        }
+
+        [data-theme="dark"] .card-body h5 {
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .card-body p {
+            color: var(--text-muted);
+        }
+
+        [data-theme="dark"] .card-body .book-price {
+            color: #60a5fa;
+        }
+
+        [data-theme="dark"] .book-image-wrapper {
+            background: var(--bg-secondary);
+        }
+
+        [data-theme="dark"] #welcomeMessage {
+            color: #e2e8f0 !important;
+        }
+
         @media (max-width: 768px) {
             .cart-dropdown {
                 min-width: 280px;
@@ -277,12 +458,21 @@
                 left: auto !important;
                 top: 60px !important;
             }
+            
+            .hero-section {
+                min-height: 60vh;
+                margin-top: 56px;
+            }
+            
+            .hero-section h1 {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Header/Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
             <a class="navbar-brand" href="index.html">
                 <i class="fas fa-book-open me-2"></i>Trost BookStore
@@ -301,11 +491,11 @@
                     <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
 
                     <!-- Theme Toggle Button -->
-                        <li class="nav-item">
-                        <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode">
-                        <i class="fas fa-moon" id="themeIcon"></i>
+                    <li class="nav-item">
+                        <button class="theme-toggle" id="themeToggle" type="button" title="Toggle Dark/Light Mode">
+                            <i class="fas fa-moon" id="themeIcon"></i>
                         </button>   
-                        </li>
+                    </li>
                     
                     <!-- ===== CART BUTTON WITH DROPDOWN ===== -->
                     <li class="nav-item dropdown" id="cartDropdownContainer">
@@ -352,7 +542,7 @@
     </section>
 
     <!-- Featured Books -->
-    <div class="container">
+    <div class="container py-5">
         <h2 class="text-center mb-4">Featured Books</h2>
 
         <div class="row">
@@ -452,6 +642,78 @@
     
     <!-- Authentication & Cart Script -->
     <script>
+        // ===== DARK/LIGHT MODE TOGGLE =====
+        (function() {
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            
+            // Function to update icon
+            function updateIcon(theme) {
+                if (themeIcon) {
+                    if (theme === 'dark') {
+                        themeIcon.className = 'fas fa-sun';
+                        themeIcon.style.color = '#f59e0b';
+                    } else {
+                        themeIcon.className = 'fas fa-moon';
+                        themeIcon.style.color = 'white';
+                    }
+                }
+            }
+            
+            // Function to apply theme
+            function setTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                updateIcon(theme);
+            }
+            
+            // Check saved theme
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                setTheme(savedTheme);
+            } else {
+                // Default to light mode
+                document.documentElement.setAttribute('data-theme', 'light');
+                updateIcon('light');
+            }
+            
+            // Toggle theme on button click
+            if (themeToggle) {
+                themeToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const currentTheme = document.documentElement.getAttribute('data-theme');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    setTheme(newTheme);
+                    
+                    // Show notification
+                    const msg = newTheme === 'dark' ? '🌙 Dark mode activated' : '☀️ Light mode activated';
+                    const notification = document.createElement('div');
+                    notification.style.cssText = `
+                        position: fixed; 
+                        bottom: 20px; 
+                        right: 20px; 
+                        background: ${newTheme === 'dark' ? '#1e293b' : '#0b1a33'}; 
+                        color: white; 
+                        padding: 12px 20px; 
+                        border-radius: 10px; 
+                        z-index: 9999; 
+                        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                        animation: slideIn 0.3s ease;
+                    `;
+                    notification.textContent = msg;
+                    document.body.appendChild(notification);
+                    
+                    setTimeout(() => {
+                        if (notification.parentElement) {
+                            notification.style.opacity = '0';
+                            notification.style.transition = 'opacity 0.3s';
+                            setTimeout(() => notification.remove(), 300);
+                        }
+                    }, 2000);
+                });
+            }
+        })();
+
         // ===== AUTHENTICATION SYSTEM =====
         const currentUser = localStorage.getItem('currentUser');
         const authLinks = document.getElementById('authLinks');
@@ -649,16 +911,6 @@
                 }
             }, 3000);
         }
-
-        // Add slideIn animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes slideIn {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
-            }
-        `;
-        document.head.appendChild(style);
 
         // ===== INITIALIZE =====
         updateUI();
