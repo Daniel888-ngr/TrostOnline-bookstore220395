@@ -473,63 +473,63 @@
 <body>
     <!-- Header/Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="index.html">
-                <i class="fas fa-book-open me-2"></i>Trost BookStore
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="books.html">Books</a></li>
-                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="booksclub.html">Book Club</a></li>
-                    <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
-                    <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
-                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+    <div class="container">
+        <a class="navbar-brand" href="index.html">
+            <i class="fas fa-book-open me-2"></i>Trost BookStore
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="books.html">Books</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="booksclub.html">Book Club</a></li>
+                <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
 
-                    <!-- Theme Toggle Button -->
-                    <li class="nav-item">
-                        <button class="theme-toggle" id="themeToggle" type="button" title="Toggle Dark/Light Mode">
-                            <i class="fas fa-moon" id="themeIcon"></i>
-                        </button>   
-                    </li>
-                    
-                    <!-- ===== CART BUTTON WITH DROPDOWN ===== -->
-                    <li class="nav-item dropdown" id="cartDropdownContainer">
-                        <a class="nav-link btn-cart" href="#" id="cartDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span class="cart-badge" id="cartBadge">0</span>
-                        </a>
-                        <ul class="dropdown-menu cart-dropdown dropdown-menu-end" aria-labelledby="cartDropdown">
-                            <li class="dropdown-header">
-                                <i class="fas fa-shopping-cart me-2"></i> Your Cart
-                            </li>
-                            <li class="dropdown-body" id="cartDropdownBody">
-                                <!-- Cart items will be loaded here -->
-                            </li>
-                            <li class="dropdown-footer" id="cartDropdownFooter">
-                                <div class="total">
-                                    <span>Total:</span>
-                                    <span id="cartDropdownTotal">KSH0.00</span>
-                                </div>
-                                <a href="cart.html" class="btn-view-cart">
-                                    <i class="fas fa-eye me-2"></i> View Cart
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    
-                    <!-- Login/Signup Links -->
-                    <li class="nav-item" id="authLinks">
-                        <!-- Dynamic content will be injected here -->
-                    </li>
-                </ul>
-            </div>
+                <!-- Theme Toggle Button -->
+                <li class="nav-item">
+                    <button class="theme-toggle" id="themeToggle" type="button" title="Toggle Dark/Light Mode">
+                        <i class="fas fa-moon" id="themeIcon"></i>
+                    </button>   
+                </li>
+                
+                <!-- Cart Button -->
+                <li class="nav-item dropdown" id="cartDropdownContainer">
+                    <a class="nav-link btn-cart" href="#" id="cartDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-badge" id="cartBadge">0</span>
+                    </a>
+                    <ul class="dropdown-menu cart-dropdown dropdown-menu-end" aria-labelledby="cartDropdown">
+                        <li class="dropdown-header">
+                            <i class="fas fa-shopping-cart me-2"></i> Your Cart
+                        </li>
+                        <li class="dropdown-body" id="cartDropdownBody">
+                            <!-- Cart items will be loaded here -->
+                        </li>
+                        <li class="dropdown-footer" id="cartDropdownFooter">
+                            <div class="total">
+                                <span>Total:</span>
+                                <span id="cartDropdownTotal">KSH0.00</span>
+                            </div>
+                            <a href="cart.html" class="btn-view-cart">
+                                <i class="fas fa-eye me-2"></i> View Cart
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                
+                <!-- Login/Signup Links -->
+                <li class="nav-item" id="authLinks">
+                    <!-- Dynamic content will be injected here -->
+                </li>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
 
     <!-- Hero Section -->
     <section class="hero-section">
