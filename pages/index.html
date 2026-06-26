@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trost BookStore - Your Online Bookstore</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        /* Additional styles for user authentication */
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2rem;
+        }
+        
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #0d6efd;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        
+        .user-name {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .nav-link.btn-login {
+            color: #fff !important;
+            background: transparent;
+            border: 1.5px solid #0d6efd;
+            border-radius: 2rem;
+            padding: 0.4rem 1.2rem;
+            transition: 0.3s;
+        }
+        
+        .nav-link.btn-login:hover {
+            background: #0d6efd;
+            color: white !important;
+        }
+        
+        .nav-link.btn-signup {
+            color: #fff !important;
+            background: #0d6efd;
+            border-radius: 2rem;
+            padding: 0.4rem 1.2rem;
+            transition: 0.3s;
+        }
+        
+        .nav-link.btn-signup:hover {
+            background: #0b5ed7;
+            transform: scale(1.02);
+        }
+        
+        .nav-link.btn-logout {
+            color: #fff !important;
+            background: #dc3545;
+            border-radius: 2rem;
+            padding: 0.4rem 1.2rem;
+            transition: 0.3s;
+        }
+
+        .book-card .book-image-wrapper {
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .book-card .book-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            padding: 10px;
+        }
+       
+        .nav-link.btn-logout:hover {
+            background: #bb2d3b;
+        }
+        
+        /* Hero section adjustment for fixed navbar */
+        .hero-section {
+            margin-top: 76px;
+        }
+
+        /* ===== THEME TOGGLE BUTTON ===== */
+        .theme-toggle {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 1.2rem;
+            margin: 0 5px;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #0d6efd;
+            transform: rotate(20deg);
+        }
+
+        .theme-toggle:focus {
+            outline: none;
+        }
+
+        /* ===== CSS VARIABLES FOR THEMING ===== */
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-navbar: #0b1a33;
+            --text-primary: #0b1a33;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-color: rgba(0,0,0,0.06);
+            --shadow-hover: rgba(0,0,0,0.1);
+            --footer-bg: #0b1a33;
+            --footer-text: #ffffff;
+            --hero-overlay: rgba(11, 26, 51, 0.8);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #1e293b;
+            --bg-navbar: #0f172a;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --shadow-color: rgba(0,0,0,0.3);
+            --shadow-hover: rgba(0,0,0,0.5);
+            --footer-bg: #0f172a;
+            --footer-text: #f1f5f9;
+            --hero-overlay: rgba(15, 23, 42, 0.85);
+        }
+
+        body {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .navbar {
+            background-color: var(--bg-navbar) !important;
+        }
+
+        .card, .book-card {
+            background-color: var(--bg-card);
+            border-color: var(--border-color);
+            box-shadow: 0 2px 8px var(--shadow-color);
+        }
+
+        .card:hover, .book-card:hover {
+            box-shadow: 0 8px 25px var(--shadow-hover);
+        }
+
+        .text-muted {
+            color: var(--text-muted) !important;
+        }
+
+        .hero-section {
+            background: linear-gradient(var(--hero-overlay), var(--hero-overlay)), 
+                        url('images/hero-banner.jpg');
+            background-size: cover;
+            background-position: center;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        footer {
+            background-color: var(--footer-bg) !important;
+        }
+
+        footer h5, footer p, footer a {
+            color: var(--footer-text) !important;
+        }
+
+        [data-theme="dark"] .book-price {
+            color: #60a5fa;
+        }
+
+        [data-theme="dark"] .book-card .book-title {
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .book-card .book-author {
+            color: var(--text-muted);
+        }
+
+        [data-theme="dark"] .card-body h5 {
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .card-body p {
+            color: var(--text-muted);
+        }
+
+        [data-theme="dark"] .book-image-wrapper {
+            background: var(--bg-secondary);
+        }
+
+        [data-theme="dark"] #welcomeMessage {
+            color: #e2e8f0 !important;
+        }
+
+        /* ===== CART BUTTON STYLES ===== */
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 7px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .nav-link.btn-cart {
+            color: #fff !important;
+            background: #0d6efd;
+            border-radius: 2rem;
+            padding: 0.4rem 1.2rem;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .nav-link.btn-cart:hover {
+            background: #0b5ed7;
+            transform: scale(1.02);
+        }
+
+        .nav-link.btn-cart .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 8px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            min-width: 22px;
+            text-align: center;
+        }
+
+        .cart-dropdown {
+            min-width: 320px;
+            max-width: 400px;
+            padding: 0;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            border: none;
+        }
+
+        .cart-dropdown .dropdown-header {
+            background: var(--bg-navbar);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px 12px 0 0;
+            font-weight: 600;
+        }
+
+        .cart-dropdown .dropdown-body {
+            max-height: 350px;
+            overflow-y: auto;
+            padding: 10px 15px;
+        }
+
+        .cart-dropdown .dropdown-item-cart {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .cart-dropdown .dropdown-item-cart:last-child {
+            border-bottom: none;
+        }
+
+        .cart-dropdown .dropdown-item-cart img {
+            width: 45px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .cart-dropdown .dropdown-item-cart .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-dropdown .dropdown-item-cart .cart-item-info h6 {
+            margin: 0;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .cart-dropdown .dropdown-item-cart .cart-item-info small {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        .cart-dropdown .dropdown-item-cart .cart-item-info .item-price {
+            color: #2563eb;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .cart-dropdown .dropdown-footer {
+            padding: 12px 20px;
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            border-radius: 0 0 12px 12px;
+        }
+
+        .cart-dropdown .dropdown-footer .total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .cart-dropdown .dropdown-footer .total span:last-child {
+            color: #2563eb;
+        }
+
+        .cart-dropdown .dropdown-footer .btn-view-cart {
+            width: 100%;
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .cart-dropdown .dropdown-footer .btn-view-cart:hover {
+            background: #1d4ed8;
+        }
+
+        .cart-empty-msg {
+            text-align: center;
+            padding: 25px 10px;
+            color: var(--text-muted);
+        }
+
+        .cart-empty-msg i {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .cart-dropdown .dropdown-menu {
+            background-color: var(--bg-card);
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .cart-dropdown .dropdown-header {
+            background: var(--bg-navbar);
+        }
+
+        [data-theme="dark"] .cart-dropdown .dropdown-footer {
+            background: var(--bg-secondary);
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .cart-dropdown .dropdown-item-cart {
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .cart-dropdown .dropdown-item-cart .cart-item-info h6 {
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .cart-dropdown .dropdown-item-cart .cart-item-info .item-price {
+            color: #60a5fa;
+        }
+
+        [data-theme="dark"] .cart-empty-msg {
+            color: var(--text-muted);
+        }
+
+        [data-theme="dark"] .dropdown-menu {
+            background-color: var(--bg-card);
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .user-info {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                min-height: 60vh;
+            }
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            .cart-dropdown {
+                min-width: 280px;
+                max-width: 300px;
+                position: fixed !important;
+                right: 10px !important;
+                left: auto !important;
+                top: 60px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header/Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-book-open me-2"></i>Trost BookStore
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="books.html">Books</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="booksclub.html">Book Club</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+
+                    <!-- Theme Toggle Button -->
+                    <li class="nav-item">
+                        <button class="theme-toggle" id="themeToggle" type="button" title="Toggle Dark/Light Mode">
+                            <i class="fas fa-moon" id="themeIcon"></i>
+                        </button>   
+                    </li>
+                    
+                    <!-- Cart Button -->
+                    <li class="nav-item dropdown" id="cartDropdownContainer">
+                        <a class="nav-link btn-cart" href="#" id="cartDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-badge" id="cartBadge">0</span>
+                        </a>
+                        <ul class="dropdown-menu cart-dropdown dropdown-menu-end" aria-labelledby="cartDropdown">
+                            <li class="dropdown-header">
+                                <i class="fas fa-shopping-cart me-2"></i> Your Cart
+                            </li>
+                            <li class="dropdown-body" id="cartDropdownBody">
+                                <!-- Cart items will be loaded here -->
+                            </li>
+                            <li class="dropdown-footer" id="cartDropdownFooter">
+                                <div class="total">
+                                    <span>Total:</span>
+                                    <span id="cartDropdownTotal">KSH0.00</span>
+                                </div>
+                                <a href="cart.html" class="btn-view-cart">
+                                    <i class="fas fa-eye me-2"></i> View Cart
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    <!-- Login/Signup Links -->
+                    <li class="nav-item" id="authLinks">
+                        <!-- Dynamic content will be injected here -->
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center text-white">
+            <h1 class="display-3 fw-bold">Welcome to Trost BookStore</h1>
+            <p class="lead">Discover your next great read. All in one place.</p> 
+            <a href="books.html" class="btn btn-primary btn-lg">Browse Collection</a>
+            <div id="welcomeMessage" class="mt-3" style="color: #000000; font-size: 1.1rem;"></div>
+        </div>
+    </section>
+
+    <!-- Featured Books -->
+    <div class="container py-5">
+        <h2 class="text-center mb-4">Featured Books</h2>
+
+        <div class="row">
+            <div class="col-md-3 mb-4">
+                <div class="card book-card">
+                    <div class="book-image-wrapper">
+                        <img src="../images/aow.jpg" >
+                    </div>
+                    <div class="card-body">
+                        <h5>Art of War</h5>
+                        <p>Sun Tzu</p>
+                        <p class="book-price">KSH 1,099</p>
+                        <button class="btn btn-primary w-100" onclick="addToCart({id:1, title:'Art of War', price:1099, image:'images/aow.jpg'})">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card book-card">
+                    <div class="book-image-wrapper">
+                        <img src="../images/tagr.jpg" alt="Think and Grow Rich">
+                    </div>
+                    <div class="card-body">
+                        <h5>Think and Grow Rich</h5>
+                        <p>Napoleon Hill</p>
+                        <p class="book-price">KSH 999</p>
+                        <button class="btn btn-primary w-100" onclick="addToCart({id:2, title:'Think and Grow Rich', price:999, image:'images/tagr.jpg'})">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card book-card">
+                    <div class="book-image-wrapper">
+                        <img src="../images/tb.jpg" alt="Think Big">
+                    </div>
+                    <div class="card-body">
+                        <h5>Think Big</h5>
+                        <p>Ben Carson</p>
+                        <p class="book-price">KSH 999</p>
+                        <button class="btn btn-primary w-100" onclick="addToCart({id:3, title:'Think Big', price:999, image:'images/tb.jpg'})">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card book-card">
+                    <div class="book-image-wrapper">
+                        <img src="../images/tmotb.jpg" alt="The Magic of Thinking Big">
+                    </div>
+                    <div class="card-body">
+                        <h5>The Magic of Thinking Big</h5>
+                        <p>David J. Schwartz</p>
+                        <p class="book-price">KSH 1,999</p>
+                        <button class="btn btn-primary w-100" onclick="addToCart({id:4, title:'The Magic of Thinking Big', price:1999, image:'images/tmotb.jpg'})">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Trost BookStore</h5>
+                    <p>Your gateway to endless stories. All in one place📖</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="about.html" class="text-white-50">About Us</a></li>
+                        <li><a href="contact.html" class="text-white-50">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Follow Us</h5>
+                    <a href="#" class="text-white-50 me-2"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-white-50 me-2"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-white-50"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Authentication & Cart Script -->
+    <script>
+        // ===== DARK/LIGHT MODE TOGGLE =====
+        (function() {
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            
+            function updateIcon(theme) {
+                if (themeIcon) {
+                    if (theme === 'dark') {
+                        themeIcon.className = 'fas fa-sun';
+                        themeIcon.style.color = '#f59e0b';
+                    } else {
+                        themeIcon.className = 'fas fa-moon';
+                        themeIcon.style.color = 'white';
+                    }
+                }
+            }
+            
+            function setTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                updateIcon(theme);
+            }
+            
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                setTheme(savedTheme);
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                updateIcon('light');
+            }
+            
+            if (themeToggle) {
+                themeToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const currentTheme = document.documentElement.getAttribute('data-theme');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    setTheme(newTheme);
+                    
+                    const msg = newTheme === 'dark' ? '🌙 Dark mode activated' : '☀️ Light mode activated';
+                    showNotification(msg);
+                });
+            }
+        })();
+
+        // ===== NOTIFICATION FUNCTION =====
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            notification.style.cssText = `
+                position: fixed; 
+                bottom: 20px; 
+                right: 20px; 
+                background: ${isDark ? '#1e293b' : '#0b1a33'}; 
+                color: white; 
+                padding: 12px 20px; 
+                border-radius: 10px; 
+                z-index: 9999; 
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                animation: slideIn 0.3s ease;
+                max-width: 350px;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.style.opacity = '0';
+                    notification.style.transition = 'opacity 0.3s';
+                    setTimeout(() => notification.remove(), 300);
+                }
+            }, 2000);
+        }
+
+        // ===== AUTHENTICATION SYSTEM =====
+        const currentUser = localStorage.getItem('currentUser');
+        const authLinks = document.getElementById('authLinks');
+        const welcomeMessage = document.getElementById('welcomeMessage');
+
+        function updateUI() {
+            if (currentUser) {
+                const userData = JSON.parse(localStorage.getItem('userData')) || {};
+                const userName = userData.name || currentUser;
+
+                authLinks.innerHTML = `
+                    <div class="user-info ms-2">
+                        <div class="user-avatar">${userName.charAt(0).toUpperCase()}</div>
+                        <span class="user-name">${userName}</span>
+                    </div>
+                    <li class="nav-item">
+                        <a class="nav-link btn-logout" href="#" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
+                `;
+
+                welcomeMessage.innerHTML = `
+                    <i class="fas fa-hand-wave"></i> Welcome back, ${userName}! 
+                    <span style="display: block; font-size: 0.9rem; color: #adb5bd; margin-top: 0.3rem;">
+                        Happy reading! 📚
+                    </span>
+                `;
+            } else {
+                authLinks.innerHTML = `
+                    <li class="nav-item">
+                        <a class="nav-link btn-login" href="login.html">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-signup" href="signup.html">
+                            <i class="fas fa-user-plus"></i> Sign Up
+                        </a>
+                    </li>
+                `;
+
+                welcomeMessage.innerHTML = `
+                    <i class="fas fa-greeting"></i> Welcome, guest! 
+                    <span style="display: block; font-size: 0.9rem; color: #adb5bd; margin-top: 0.3rem;">
+                        <a href="login.html" style="color: #ffc107; text-decoration: none;">Login</a> or 
+                        <a href="signup.html" style="color: #ffc107; text-decoration: none;">Sign up</a> to access exclusive features.
+                    </span>
+                `;
+            }
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('userData');
+                window.location.href = 'index.html';
+            }
+        }
+
+        // ===== CART SYSTEM =====
+        function getCart() {
+            return JSON.parse(localStorage.getItem('cart')) || [];
+        }
+
+        function saveCart(cart) {
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartUI();
+        }
+
+        function addToCart(book) {
+            let cart = getCart();
+            const existing = cart.find(item => item.id === book.id);
+            
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({
+                    id: book.id,
+                    title: book.title,
+                    price: book.price,
+                    quantity: 1,
+                    image: book.image
+                });
+            }
+            
+            saveCart(cart);
+            showNotification(`✅ "${book.title}" added to cart!`);
+        }
+
+        function removeFromCart(index) {
+            let cart = getCart();
+            cart.splice(index, 1);
+            saveCart(cart);
+            renderCartDropdown();
+        }
+
+        function updateQuantity(index, change) {
+            let cart = getCart();
+            if (!cart[index]) return;
+            
+            cart[index].quantity += change;
+            
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            
+            saveCart(cart);
+            renderCartDropdown();
+        }
+
+        function updateCartUI() {
+            const cart = getCart();
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById('cartBadge');
+            if (badge) {
+                badge.textContent = totalItems;
+            }
+            renderCartDropdown();
+        }
+
+        function renderCartDropdown() {
+            const cart = getCart();
+            const body = document.getElementById('cartDropdownBody');
+            const footer = document.getElementById('cartDropdownFooter');
+            const totalSpan = document.getElementById('cartDropdownTotal');
+            
+            if (!body) return;
+            
+            if (cart.length === 0) {
+                body.innerHTML = `
+                    <div class="cart-empty-msg">
+                        <i class="fas fa-shopping-bag"></i>
+                        <p>Your cart is empty</p>
+                        <small>Start adding some books!</small>
+                    </div>
+                `;
+                if (footer) footer.style.display = 'none';
+                return;
+            }
+
+            if (footer) footer.style.display = 'block';
+            
+            let html = '';
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                html += `
+                    <div class="dropdown-item-cart">
+                        <img src="${item.image || 'https://via.placeholder.com/45x60/0b1a33/ffffff?text=Book'}" alt="${item.title}">
+                        <div class="cart-item-info">
+                            <h6>${item.title}</h6>
+                            <small>Qty: ${item.quantity}</small>
+                            <div class="item-price">KSH ${(item.price * item.quantity).toLocaleString()}</div>
+                        </div>
+                        <div style="display:flex;gap:4px;flex-direction:column;">
+                            <button onclick="updateQuantity(${index}, 1)" style="background:#2563eb;color:white;border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;">+</button>
+                            <button onclick="updateQuantity(${index}, -1)" style="background:#ef4444;color:white;border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;">-</button>
+                            <button onclick="removeFromCart(${index})" style="background:#dc3545;color:white;border:none;border-radius:4px;font-size:0.6rem;padding:2px 4px;cursor:pointer;">✕</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            body.innerHTML = html;
+            if (totalSpan) totalSpan.textContent = `KSH ${total.toLocaleString()}`;
+        }
+
+        // ===== INITIALIZE =====
+        updateUI();
+        updateCartUI();
+
+        // Update cart when dropdown is shown
+        const cartContainer = document.getElementById('cartDropdownContainer');
+        if (cartContainer) {
+            cartContainer.addEventListener('shown.bs.dropdown', function() {
+                renderCartDropdown();
+            });
+        }
+    </script>
+    
+    <!-- Custom JS -->
+    <script src="js/main.js"></script>
+</body>
+</html>
