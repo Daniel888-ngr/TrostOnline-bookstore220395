@@ -1014,9 +1014,18 @@
                 const itemTotal = item.price * item.quantity;
                 total += itemTotal;
                 
+                // FIX: Get correct image path
+                let imagePath = item.image || 'https://via.placeholder.com/45x60/0b1a33/ffffff?text=Book';
+                // Remove any ../ from the path
+                imagePath = imagePath.replace(/\.\.\//g, '');
+                // If path doesn't start with images/ and isn't a URL, add images/
+                if (!imagePath.startsWith('images/') && !imagePath.startsWith('http')) {
+                    imagePath = 'images/' + imagePath;
+                }
+                
                 html += `
                     <div class="dropdown-item-cart">
-                        <img src="${item.image || 'https://via.placeholder.com/45x60/0b1a33/ffffff?text=Book'}" alt="${item.title}">
+                        <img src="${imagePath}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/45x60/0b1a33/ffffff?text=${item.title}'">
                         <div class="cart-item-info">
                             <h6>${item.title}</h6>
                             <small>Qty: ${item.quantity}</small>
@@ -1086,9 +1095,18 @@
                 const itemTotal = item.price * item.quantity;
                 subtotal += itemTotal;
                 
+                // FIX: Get correct image path
+                let imagePath = item.image || 'https://via.placeholder.com/50x65/0b1a33/ffffff?text=Book';
+                // Remove any ../ from the path
+                imagePath = imagePath.replace(/\.\.\//g, '');
+                // If path doesn't start with images/ and isn't a URL, add images/
+                if (!imagePath.startsWith('images/') && !imagePath.startsWith('http')) {
+                    imagePath = '..images/' + imagePath;
+                }
+                
                 cartHTML += `
                     <div class="order-item">
-                        <img src="${item.image || 'https://via.placeholder.com/50x65/0b1a33/ffffff?text=Book'}" alt="${item.title}">
+                        <img src="${imagePath}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/50x65/0b1a33/ffffff?text=${item.title}'">
                         <div class="item-details">
                             <div class="item-title">${item.title}</div>
                             <div class="item-meta">Qty: ${item.quantity}</div>
